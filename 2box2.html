@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body onload="tableInit()">
+<table id="tableContainer" border="1">
+    <thead>
+    <tr>
+        <th scope="col">col 1</th>
+        <th scope="col">col 2</th>
+        <th scope="col">action</th>
+    </tr>
+    </thead>
+    <tbody id="tableBody">
+
+    </tbody>
+</table>
+<table id="table2">
+
+</table>
+<button onclick="addTable()">Add cell</button>
+<button onclick="submitTable()">Submit</button>
+<script>
+    let tableCounter = 2; // init
+    let tableData = [];
+
+    function tableInit() {
+        let tableContainer = document.getElementById('tableBody');
+        for (let i = 0;
+        i < tableCounter;
+        i++
+    )
+        {
+            let row = tableContainer.insertRow(i);
+            let cell1 = row.insertCell(0);
+            let cell2 = row.insertCell(1);
+            let cell3 = row.insertCell(2);
+            cell1.innerHTML = "<input type='text'>";
+            cell2.innerHTML = "<input type='text'>";
+            cell3.innerHTML = " X ";
+            cell3.addEventListener("click" , function () {
+                tableContainer.deleteRow(i);
+                tableCounter -= 1;
+            })
+        }
+    }
+
+    function submitTable() {
+        let tableContainer = document.getElementById('tableBody');
+        let row;
+        let cell1,cell2,cell3;
+        let tableData = [];
+        for (let i = 0; i < tableCounter; i++){
+            row = tableContainer.rows[i];
+            cell1 = row.cells[0].value;
+            cell2 = row.cells[1].value;
+            cell3 = row.cells[2].value;
+            tableData[i] = {
+                'cell1': cell1,
+                'cell2': cell2,
+                'cell3': cell3,
+            };
+            alert(tableData);
+        }
+    }
+
+    function addTable() {
+        let tableContainer = document.getElementById('tableBody');
+        let row = tableContainer.insertRow(tableCounter);
+        let cell1 = row.insertCell(0);
+        let cell2 = row.insertCell(1);
+        let cell3 = row.insertCell(2);
+        cell1.innerHTML = "<input type='text'>";
+        cell2.innerHTML = "<input type='text'>";
+        cell3.innerHTML = " X ";
+        cell3.addEventListener("click" , function () {
+            tableContainer.deleteRow(tableCounter - 1);
+            tableCounter -= 1;
+        });
+        tableCounter +=1;
+    }
+</script>
+</body>
+</html>

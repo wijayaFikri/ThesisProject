@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body onload="initTable()">
+<table border="1">
+    <thead>
+    <tr>
+        <th scope="col">No</th>
+        <th scope="col">col 2</th>
+        <th scope="col">action</th>
+    </tr>
+    </thead>
+    <tbody id="tableBody">
+{{/*    <tr>
+        <th scope="row" id="no0">1</th>
+        <td ><input id="data0" type="text" placeholder="cell 1"></td>
+        <td id="cell0" onclick="deleteThis(this.id)"> X</td>
+    </tr>
+    <tr>
+        <th scope="row" id="no1">2</th>
+        <td><input type="text" id="data1" placeholder="cell 2"></td>
+        <td id="cell1" onclick="deleteThis(this.id)"> X</td>
+    </tr>*/}}
+    </tbody>
+</table>
+<button id="actionButton" name="actionButton" onclick="addTable()">Add</button>
+
+<script>
+    let tableCounter = 2; //initial
+    let tableData = [];
+
+    function initTable() {
+
+    }
+
+    function deleteThis(id) {
+        let targetId = id.replace("cell","");
+        tableData.splice(parseInt(targetId), 1);
+        tableCounter -= 1;
+        refreshTable();
+    }
+
+    function refreshTable() {
+        let tableCode = '';
+        let noCell = '';
+        let dataCell = '';
+        let dataInJson;
+        for(let i = 0 ; i < tableCounter ; i++){
+            dataInJson = tableData[i];
+            noCell = i + 1;
+            dataCell = dataInJson['data'];
+            tableCode += "<tr> \n";
+            tableCode += "<th scope='row' id='no" + i + "'>" + noCell;
+            tableCode += "<td id='data" + i + "'>" + dataCell;
+            tableCode += "<td id='cell" + i + "' onclick='deleteThis(this.id)'>" + "X" + "</td>";
+        }
+        document.getElementById("tableBody").innerHTML = tableCode;
+    }
+
+    function addTable() {
+        let tableCode = "";
+        let tableBody = document.getElementById("tableBody");
+        let loopCounter = 0;
+        for (let i = 0; i < tableCounter; i++) {
+            let noCell = document.getElementById("no" + i.toString()).innerHTML;
+            let dataCell = document.getElementById("data" + i.toString()).innerHTML;
+            let dataCellJson = {
+                'no' : noCell,
+                'data' : dataCell,
+            };
+            tableData[i] = dataCellJson;
+            tableCode += "<tr> \n";
+            tableCode += "<th " +
+                "scope='row'" +
+                " id='no"
+                + i
+                + "'>"
+                + noCell;
+            tableCode += "<td>" + "<input id='data" + i + "' " + "value='" + dataCell + "'">"";
+            tableCode += "<td id='cell" + i + "' onclick='deleteThis(this.id)'>" + "X" + "</td>";
+            loopCounter += 1;
+        }
+        tableCode += "<tr> \n";
+        tableCode += "<th scope='row' id='no" + loopCounter + "'>" + (loopCounter + 1).toString();
+        tableCode += "<td id='data" + loopCounter + "'>";
+        tableCode += "<td id='cell" + loopCounter + "' onclick='deleteThis(this.id)'>" + "X" + "</td>";
+
+        let dataCellJson = {
+            'no' : loopCounter,
+            'data' : '',
+        };
+        tableData[loopCounter] = dataCellJson;
+
+        tableCounter +=1;
+        tableBody.innerHTML = tableCode;
+    }
+</script>
+</body>
+</html>
