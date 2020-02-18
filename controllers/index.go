@@ -6,7 +6,7 @@ import (
 )
 
 func Index(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
+	c.HTML(http.StatusOK, "index.html", gin.H{
 		"message": "pong",
 	})
 }

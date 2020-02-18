@@ -11,6 +11,30 @@
 			"revision": ""
 		},
 		{
+			"checksumSHA1": "vG2nQMjc/shd2XDg+bnAvkpXiuU=",
+			"path": "github.com/foolin/goview",
+			"revision": "1198fb13bca3be06ac86db293937a7474c9b1bc7",
+			"revisionTime": "2019-10-30T07:17:15Z"
+		},
+		{
+			"checksumSHA1": "092TXVAZ32AE3fAot7YyUd54cW8=",
+			"path": "github.com/foolin/goview/supports/ginview",
+			"revision": "1198fb13bca3be06ac86db293937a7474c9b1bc7",
+			"revisionTime": "2019-10-30T07:17:15Z"
+		},
+		{
+			"checksumSHA1": "ijlugl5fUImCREWpCvOEgR04gS0=",
+			"path": "github.com/gin-contrib/sessions",
+			"revision": "788e7845daf6cd1c0db3c31feb55d4e8773c6936",
+			"revisionTime": "2020-02-12T02:02:32Z"
+		},
+		{
+			"checksumSHA1": "GaYvF2EJ6DeKQAhdi3G89cngj+E=",
+			"path": "github.com/gin-contrib/sessions/cookie",
+			"revision": "788e7845daf6cd1c0db3c31feb55d4e8773c6936",
+			"revisionTime": "2020-02-12T02:02:32Z"
+		},
+		{
 			"checksumSHA1": "mKall8xfKBPL/a5Ji//i968rLsY=",
 			"path": "github.com/gin-contrib/sse",
 			"revision": "43f0f29dbd2b3f0feeebff91fd9cda22db296938",
@@ -53,6 +77,24 @@
 			"path": "github.com/golang/protobuf/proto",
 			"revision": "d23c5127dc24889085f8ccea5c9d560a57a879d8",
 			"revisionTime": "2020-01-28T18:10:23Z"
+		},
+		{
+			"checksumSHA1": "66S00P4GDH4ng1B/hWWQX1+vdRY=",
+			"path": "github.com/gorilla/context",
+			"revision": "8559d4a6b87e4f517ec1846eb90a192b8748cc89",
+			"revisionTime": "2019-06-27T02:46:05Z"
+		},
+		{
+			"checksumSHA1": "Q+4Ot9TwKWoifPlLC6o1ZXCbMNY=",
+			"path": "github.com/gorilla/securecookie",
+			"revision": "61b4ad17eb88d0d1118560d1101176279be2bc88",
+			"revisionTime": "2019-10-28T04:23:04Z"
+		},
+		{
+			"checksumSHA1": "fYmSF/qmgsz1l10UrVOFvKubqmY=",
+			"path": "github.com/gorilla/sessions",
+			"revision": "15ff3511704639ab26f7843f780c015f4bf49565",
+			"revisionTime": "2020-01-05T16:41:44Z"
 		},
 		{
 			"checksumSHA1": "+qzEz1lMejGn3fFsRuGeRtsLu+4=",
