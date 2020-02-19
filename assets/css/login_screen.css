@@ -9,7 +9,7 @@
     clip-path: circle(75% at 80% 50%);
     background: rgb(28,181,224);
     background: linear-gradient(0deg, rgba(28,181,224,1) 0%, rgba(0,8,81,1) 100%);
-    padding-left: 6rem !important;
+    padding-left: 8rem !important;
 }
 
 .login-screen-text-field{

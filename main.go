@@ -16,6 +16,7 @@ func main() {
 	r.HTMLRender = ginview.Default()
 	r.GET("/", controllers.Index)
 	r.GET("/login", controllers.LoadLoginScreen)
+	r.GET("/register", controllers.Register)
 	r.Static("/assets", "./assets")
 	port := os.Getenv("PORT")
 	if port != "" {

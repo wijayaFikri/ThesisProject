@@ -1,0 +1,10 @@
+.register-right-section{
+    -webkit-clip-path: circle(82% at 80% 50%);
+    clip-path: circle(82% at 80% 50%);
+    background: white;
+}
+
+.register-left-section{
+    background: rgb(28,181,224);
+    background: linear-gradient(0deg, rgba(28,181,224,1) 0%, rgba(0,8,81,1) 100%);
+}
