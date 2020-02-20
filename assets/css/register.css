@@ -1,7 +1,13 @@
 .register-right-section{
     -webkit-clip-path: circle(82% at 80% 50%);
     clip-path: circle(82% at 80% 50%);
+    padding-left: 18% !important;
     background: white;
+}
+
+.register-screen-text-field{
+    border-radius: 1rem !important;
+    width: 24rem !important;
 }
 
 .register-left-section{
