@@ -1,7 +1,7 @@
 .register-right-section{
-    -webkit-clip-path: circle(82% at 80% 50%);
-    clip-path: circle(82% at 80% 50%);
-    padding-left: 18% !important;
+    -webkit-clip-path: circle(87% at 80% 50%);
+    clip-path: circle(87% at 80% 50%);
+    padding-left: 23% !important;
     background: white;
 }
 
@@ -9,8 +9,20 @@
     border-radius: 1rem !important;
     width: 24rem !important;
 }
+.register-screen2-left-section{
+    -webkit-clip-path: circle(100.0% at 195% 50%);
+    clip-path: circle(100.0% at 195% 50%);
+    background: white;
+}
+
+.register-screen-request-btn{
+    width: 18rem !important;
+    border-radius: 1rem !important;
+    border: none;
+}
 
 .register-left-section{
+    padding-right: 12rem !important;
     background: rgb(28,181,224);
     background: linear-gradient(0deg, rgba(28,181,224,1) 0%, rgba(0,8,81,1) 100%);
 }

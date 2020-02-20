@@ -6,5 +6,5 @@ import (
 )
 
 func Register(c *gin.Context) {
-	c.HTML(http.StatusOK, "/register/register.html", gin.H{})
+	c.HTML(http.StatusOK, "/register/register-2.html", gin.H{})
 }
