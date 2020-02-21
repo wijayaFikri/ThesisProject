@@ -17,6 +17,7 @@ func main() {
 	r.GET("/", controllers.Index)
 	r.GET("/login", controllers.LoadLoginScreen)
 	r.GET("/register", controllers.Register)
+	r.GET("/admin", controllers.AdminLogin)
 	r.Static("/assets", "./assets")
 	port := os.Getenv("PORT")
 	if port != "" {
