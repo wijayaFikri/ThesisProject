@@ -4,25 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Title</title>
-
+    <link rel="stylesheet" href="/assets/fonts/fonts.css">
     <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assets/css/register.css">
     <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/css/admin/login.css">
     <link rel="stylesheet" href="/assets/fontawesome/css/fontawesome.min.css">
-    <link href="/assets/fontawesome/css/brands.css" rel="stylesheet">
-    <link href="/assets/fontawesome/css/solid.css" rel="stylesheet">
 </head>
 <body>
 <div class="container-fluid">
     <div class="row vh-100 justify-content-center">
         <div class="align-self-center">
+            <h3 class="font-montserrat text-center mb-5 font-weight-bold"> LOGIN </h3>
             <form>
                 <div class="form-group">
-                    <input type="text" placeholder="username" name="username">
+                    <input class="admin-form font-ubuntu" type="text" placeholder="username" name="username" required>
                 </div>
 
                 <div class="form-group">
-                    <input type="password" placeholder="password" name="password">
+                    <input class="admin-form font-ubuntu" type="password" placeholder="password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <input class="w-100 mt-2 admin-button text-white" type="submit" value="LOGIN">
                 </div>
             </form>
         </div>

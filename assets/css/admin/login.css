@@ -1,0 +1,38 @@
+.admin-form {
+    padding: 1rem 2rem;
+    background-color: #E6E6E6;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    background-clip: padding-box;
+}
+
+.admin-form:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    border-color: #007bff;
+}
+
+.admin-button {
+    border-radius: 0.5rem;
+    background-color: #007bff;
+    border : none;
+    padding: 1rem 2rem;
+    font-weight: 500;
+    transition: background-color 0.15s ease-in-out;
+}
+
+.admin-button:hover {
+    background-color: #0069d9;
+}
+
+@media screen and (max-width: 760px) {
+    .admin-form {
+        padding: 0.5rem 1rem;
+    }
+
+    .admin-button {
+        padding: 0.5rem 1rem;
+    }
+}
