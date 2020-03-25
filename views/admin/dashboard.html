@@ -13,83 +13,214 @@
 </head>
 <body>
 
-<div class="wrapper">
-    <!-- Sidebar -->
-    <nav id="sidebar">
-        <div class="sidebar-header">
-            <h3>Bootstrap Sidebar</h3>
-        </div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="NonavbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-        <ul class="list-unstyled components">
-            <p>Dummy Heading</p>
-            <li class="active">
-                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
-                <ul class="collapse list-unstyled" id="homeSubmenu">
-                    <li>
-                        <a href="#">Home 1</a>
-                    </li>
-                    <li>
-                        <a href="#">Home 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Home 3</a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="#">About</a>
-            </li>
-            <li>
-                <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
-                <ul class="collapse list-unstyled" id="pageSubmenu">
-                    <li>
-                        <a href="#">Page 1</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Page 3</a>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <a href="#">Portfolio</a>
-            </li>
-            <li>
-                <a href="#">Contact</a>
-            </li>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
         </ul>
-    </nav>
+        <span class="navbar-text text-white mr-3">
+      Hello {{ .user }}
+    </span>
+        <span class="navbar-text text-white">
+            Logout
+        </span>
+    </div>
+</nav>
 
-</div>
-
-<a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
-<ul class="collapse list-unstyled" id="pageSubmenu">
-    <li>
-        <a href="#">Page 1</a>
-    </li>
-    <li>
-        <a href="#">Page 2</a>
-    </li>
-    <li>
-        <a href="#">Page 3</a>
-    </li>
-</ul>
-
-<div id="content">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-
-            <button type="button" id="sidebarCollapse" class="btn btn-info">
-                <i class="fas fa-align-left"></i>
-                <span>Toggle Sidebar</span>
-            </button>
-
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12 col-sm-3 mb-5">
+            <div class="shadow rounded-lg overflow-hidden" onclick="showInventory()">
+                <div class="row">
+                    <div class="col-6 py-5 pl-5">
+                        Inventory
+                    </div>
+                    <div class="col-6 pt-3 card-image-container bg-danger">
+                        <i class="fas fa-archive position-absolute text-white"
+                           style="font-size: 6rem;
+                           font-weight: 500;"></i>
+                    </div>
+                </div>
+            </div>
         </div>
-    </nav>
-</div>
+        <div class="col-12 col-sm-3 mb-5">
+            <div class="shadow rounded-lg overflow-hidden" onclick="showVendor()">
+                <div class="row">
+                    <div class="col-6 py-5 pl-5">
+                        Vendor
+                    </div>
+                    <div class="col-6 pt-3 card-image-container bg-dark">
+                        <i class="fas fa-building position-absolute text-white"
+                           style="font-size: 6rem;
+                           font-weight: 500;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-3 mb-5">
+            <div class="shadow rounded-lg overflow-hidden" onclick="showTask()">
+                <div class="row">
+                    <div class="col-6 py-5 pl-5">
+                        Task
+                    </div>
+                    <div class="col-6 pt-3 card-image-container bg-primary">
+                        <i class="fas fa-tasks position-absolute text-white"
+                           style="font-size: 6rem;
+                           font-weight: 500;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-3 mb-5">
+            <div class="shadow rounded-lg overflow-hidden" onclick="showOrder()">
+                <div class="row">
+                    <div class="col-6 py-5 pl-5">
+                        Order
+                    </div>
+                    <div class="col-6 pt-3 card-image-container bg-info">
+                        <i class="fas fa-shopping-basket position-absolute text-white"
+                           style="font-size: 6rem;
+                           font-weight: 500;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <div class="d-none d-sm-block">{{/*
+        <div class="row justify-content-between">
+            <div class="col-sm-6">
+                <div class="rounded shadow">
+                    <div class="p-3 bg-danger text-white">
+                        Latest Product
+                    </div>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Vendor</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{ range $index, $value := .latestProduct }}
+                        <tr>
+                            <th scope="row">{{ add $index 1 }}</th>
+                            <td>{{ .Name }}</td>
+                            <td>{{ .Price}}</td>
+                            <td>{{ .VendorID }}</td>
+                        </tr>
+                        {{end}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="rounded shadow">
+                    <div class="p-3 bg-dark text-white">
+                        Latest Vendor
+                    </div>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">About</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{ range $index, $value := .latestVendor }}
+                        <tr>
+                            <th scope="row">{{ add $index 1 }}</th>
+                            <td>{{ .VendorName }}</td>
+                            <td>{{ .VendorLocation}}</td>
+                            <td>{{ .VendorDescription }}</td>
+                        </tr>
+                        {{end}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-between my-3">
+            <div class="col-sm-6">
+                <div class="rounded shadow">
+                    <div class="p-3 bg-primary text-white">
+                        Pending Task
+                    </div>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">First</th>
+                            <th scope="col">Last</th>
+                            <th scope="col">Handle</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Jacob</td>
+                            <td>Thornton</td>
+                            <td>@fat</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>Larry</td>
+                            <td>the Bird</td>
+                            <td>@twitter</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="rounded shadow">
+                    <div class="p-3 bg-info text-white">
+                        Latest Order
+                    </div>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Order ID</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Total Price</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{ range $index, $value := .latestOrder }}
+                        <tr>
+                            <th scope="row">{{ add $index 1 }}</th>
+                            <td>{{ .OrderID }}</td>
+                            <td>{{ .Status }}</td>
+                            <td>{{ .TotalPrice }}</td>
+                        </tr>
+                        {{end}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    */}}</div>
+</div>
+<script src="/assets/js/admin/admin.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
         crossorigin="anonymous"></script>

@@ -16,7 +16,13 @@ func UpdateOrder(Order models.Order) {
 
 func GetAllOrder() []models.Order {
 	var Orders []models.Order
-	Db.Preload("Product").Find(Db.Find(&Orders))
+	Db.Preload("Product").Find(&Orders)
+	return Orders
+}
+
+func GetLatestOrder() []models.Order {
+	var Orders []models.Order
+	Db.Preload("Product").Order("ID desc").Limit(7).Find(&Orders)
 	return Orders
 }
 

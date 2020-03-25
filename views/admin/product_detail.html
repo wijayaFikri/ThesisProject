@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Title</title>
+    <link rel="stylesheet" href="/assets/fonts/fonts.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/admin/dashboard.css">
+    <link rel="stylesheet" href="/assets/fontawesome/css/fontawesome.min.css">
+    <link href="/assets/fontawesome/css/solid.css" rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="NonavbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+        </ul>
+        <span class="navbar-text text-white mr-3">
+      Hello {{ .user }}
+    </span>
+        <span class="navbar-text text-white">
+            Logout
+        </span>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12 col-sm-3 mb-5">
+            <div class="shadow rounded-lg overflow-hidden hvr-cursor-pointer" onclick="showInventory()">
+                <div class="row">
+                    <div class="col-6 py-5 pl-5">
+                        Inventory
+                    </div>
+                    <div class="col-6 pt-3 card-image-container-active bg-danger">
+                        <i class="fas fa-archive position-absolute text-white"
+                           style="font-size: 6rem;
+                           font-weight: 500;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-3 mb-5">
+            <div class="shadow rounded-lg overflow-hidden hvr-cursor-pointer" onclick="showVendor()">
+                <div class="row">
+                    <div class="col-6 py-5 pl-5">
+                        Vendor
+                    </div>
+                    <div class="col-6 pt-3 card-image-container bg-dark">
+                        <i class="fas fa-building position-absolute text-white"
+                           style="font-size: 6rem;
+                           font-weight: 500;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-3 mb-5">
+            <div class="shadow rounded-lg overflow-hidden hvr-cursor-pointer" onclick="showTask()">
+                <div class="row">
+                    <div class="col-6 py-5 pl-5">
+                        Task
+                    </div>
+                    <div class="col-6 pt-3 card-image-container bg-primary">
+                        <i class="fas fa-tasks position-absolute text-white"
+                           style="font-size: 6rem;
+                           font-weight: 500;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-3 mb-5 ">
+            <div class="shadow rounded-lg overflow-hidden hvr-cursor-pointer" onclick="showOrder()">
+                <div class="row">
+                    <div class="col-6 py-5 pl-5">
+                        Order
+                    </div>
+                    <div class="col-6 pt-3 card-image-container bg-info">
+                        <i class="fas fa-shopping-basket position-absolute text-white"
+                           style="font-size: 6rem;
+                           font-weight: 500;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-sm-6">
+            <div class="shadow h-100">
+                <div class="p-3 bg-danger text-white">
+                    Edit Product
+                </div>
+                <div class="px-3 py-3">
+                    <form method="POST" action="">
+                        <input type="hidden" value="{{ .product.ID }}" name="id">
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Product Name</label>
+                            <input type="text" class="form-control" id="formGroupExampleInput" name="name"
+                                   value="{{ .product.Name}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput2">Product Quantity</label>
+                            <input type="text" class="form-control" id="formGroupExampleInput2" name="quantity"
+                                   value="{{.product.Quantity }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput3">Product Price</label>
+                            <input type="text" class="form-control" id="formGroupExampleInput3" name="price"
+                            value="{{ .product.Price }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput4">Product Vendor</label>
+                            <select class="form-control" id="formGroupExampleInput4" name="vendorName">
+                            {{ range $index, $value := .vendorNames }}
+                                {{if equal $value $.product.VendorName }}
+                                <option selected>{{ $value }}</option>
+                                {{ else }}
+                                <option> {{ $value }}</option>
+                                {{ end }}
+                            {{ end }}
+                            </select>
+                        </div>
+                        <div class="form-group d-flex justify-content-end">
+                            <input type="submit" value="Submit Changes" class="btn btn-danger">
+                        </div>
+                    {{ if .isResult }}
+                        <div class="form-group d-flex justify-content-center">
+                        {{ if .isError }}
+                            <p class="text-danger"> {{ .resultMessage }} </p>
+                        {{ else }}
+                            <p class="text-success"> {{.resultMessage }}</p>
+                        {{ end}}
+                        </div>
+                    {{ end}}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/assets/js/admin/admin.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+</body>
+</html>

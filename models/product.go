@@ -1,9 +1,21 @@
 package models
 
+import "time"
+
 type Product struct {
-	ID       uint   `gorm:"primary_key;AUTO_INCREMENT";json:"id"`
-	Name     string `json:"name"`
-	Price    int    `json:"price"`
-	Quantity int    `json:"quantity"`
-	VendorID uint   `json:"vendor_id"`
+	ID         uint   `gorm:"primary_key;AUTO_INCREMENT";json:"id"`
+	Name       string `json:"name";form:"name"`
+	Price      int    `json:"price";form:"price"`
+	Quantity   int    `json:"quantity";form:"quantity"`
+	VendorName string `json:"vendor_name";form:"vendorName"`
+	Purchased  int    `json:"purchased";form:"purchased"`
+}
+
+type ProductPurchased struct {
+	ID           uint      `gorm:"primary_key;AUTO_INCREMENT";json:"id"`
+	Name         string    `json:"name"`
+	Price        int       `json:"price"`
+	Quantity     int       `json:"quantity"`
+	VendorName   string    `json:"vendor_name"`
+	PurchaseDate time.Time `json:"purchase_date"`
 }

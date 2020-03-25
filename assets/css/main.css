@@ -68,3 +68,7 @@
     -o-transition: width 0.35s ease;
     transition: width 0.35s ease;
 }
+
+.hvr-cursor-pointer {
+    cursor: pointer;
+}

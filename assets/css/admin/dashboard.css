@@ -25,6 +25,17 @@ a[data-toggle="collapse"] {
     transform: translateY(-50%);
 }
 
+.card-image-container {
+    opacity: 0.5 !important;
+    -webkit-clip-path: circle(100.0% at 100% 100%);
+    clip-path: circle(100.0% at 100% 100%);
+}
+
+.card-image-container-active {
+    -webkit-clip-path: circle(100.0% at 100% 100%);
+    clip-path: circle(100.0% at 100% 100%);
+}
+
 @media (max-width: 768px) {
     #sidebar {
         margin-left: -250px;

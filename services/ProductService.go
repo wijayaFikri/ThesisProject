@@ -16,8 +16,20 @@ func UpdateProduct(product models.Product) {
 
 func GetAllProduct() []models.Product {
 	var products []models.Product
-	Db.Find(Db.Find(&products))
+	Db.Find(&products)
 	return products
+}
+
+func GetLatestProduct() []models.Product {
+	var Products []models.Product
+	Db.Order("ID desc").Limit(7).Find(&Products)
+	return Products
+}
+
+func GetMostPurchasedProduct() []models.Product {
+	var Products []models.Product
+	Db.Order("Purchased desc").Limit(8).Find(&Products)
+	return Products
 }
 
 func FindProductById(id uint) models.Product {
