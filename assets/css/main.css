@@ -72,3 +72,7 @@
 .hvr-cursor-pointer {
     cursor: pointer;
 }
+
+.hvr-underline-text:hover {
+    text-decoration: underline;
+}

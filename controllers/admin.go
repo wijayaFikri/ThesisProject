@@ -48,6 +48,7 @@ func InventoryList(c *gin.Context) {
 		product.Name = c.PostForm("name")
 		product.Quantity, convertError = strconv.Atoi(c.PostForm("quantity"))
 		product.Price, convertError = strconv.Atoi(c.PostForm("price"))
+		product.ImageUrl = c.PostForm("imageUrl")
 		vendor := services.FindVendorByName(c.PostForm("vendorName"))
 		vendor.Product = append(vendor.Product, product)
 		if convertError == nil {

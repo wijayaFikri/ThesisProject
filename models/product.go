@@ -1,6 +1,8 @@
 package models
 
-import "time"
+import (
+	"time"
+)
 
 type Product struct {
 	ID         uint   `gorm:"primary_key;AUTO_INCREMENT";json:"id"`
@@ -8,6 +10,7 @@ type Product struct {
 	Price      int    `json:"price";form:"price"`
 	Quantity   int    `json:"quantity";form:"quantity"`
 	VendorName string `json:"vendor_name";form:"vendorName"`
+	ImageUrl   string `json:"image_url"`
 	Purchased  int    `json:"purchased";form:"purchased"`
 }
 
