@@ -115,6 +115,12 @@
 			"revisionTime": "2020-03-05T06:48:31Z"
 		},
 		{
+			"checksumSHA1": "NAWRqf9uI0tdmbSHBCv0K3QjZEY=",
+			"path": "github.com/jinzhu/gorm/dialects/postgres",
+			"revision": "7ea143b5484fe28148d5c73cfd43b26e8a89c94e",
+			"revisionTime": "2020-03-05T06:48:31Z"
+		},
+		{
 			"checksumSHA1": "Hf2EdZUOQfrn+iW34gg2/0GHo94=",
 			"path": "github.com/jinzhu/inflection",
 			"revision": "f5c5f50e6090ae76a29240b61ae2a90dd810112e",
@@ -125,6 +131,30 @@
 			"path": "github.com/json-iterator/go",
 			"revision": "7acbb404a45be33f136d6f16fe8f86ca30f1008d",
 			"revisionTime": "2020-02-06T01:56:04Z"
+		},
+		{
+			"checksumSHA1": "TLFnhAl6p8fYpZaVvVbqiibNI1M=",
+			"path": "github.com/lib/pq",
+			"revision": "356e267cd3f45ee1303b7d8765e3583cb949950e",
+			"revisionTime": "2020-04-01T00:10:26Z"
+		},
+		{
+			"checksumSHA1": "wYhUtPI9cCxqkXtXUGeF7l1xaoU=",
+			"path": "github.com/lib/pq/hstore",
+			"revision": "356e267cd3f45ee1303b7d8765e3583cb949950e",
+			"revisionTime": "2020-04-01T00:10:26Z"
+		},
+		{
+			"checksumSHA1": "GX2hcQP8YqrXH+laJJIxUFsqoxU=",
+			"path": "github.com/lib/pq/oid",
+			"revision": "356e267cd3f45ee1303b7d8765e3583cb949950e",
+			"revisionTime": "2020-04-01T00:10:26Z"
+		},
+		{
+			"checksumSHA1": "PStZaE3pKgMy1kk+hHB/of2FYBk=",
+			"path": "github.com/lib/pq/scram",
+			"revision": "356e267cd3f45ee1303b7d8765e3583cb949950e",
+			"revisionTime": "2020-04-01T00:10:26Z"
 		},
 		{
 			"checksumSHA1": "Tet0S+rvMIUeDsIIRHmtOwJfo4A=",
