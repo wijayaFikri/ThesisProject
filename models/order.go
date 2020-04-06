@@ -6,4 +6,5 @@ type Order struct {
 	Product    []ProductPurchased `gorm:"many2many:order_product;"`
 	TotalPrice int                `json:"total_price"`
 	Status     string             `json:"status"`
+	Username   string             `json:"username"`
 }
