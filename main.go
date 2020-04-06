@@ -31,18 +31,24 @@ func main() {
 	})
 	r.Use(sessions.Sessions("mySession", store))
 	r.HTMLRender = ginView
-	r.GET("/", controllers.Index)
+	r.GET("/", controllers.AdminDashboard)
+	r.POST("/admin", controllers.AdminLogin)
 	r.GET("/login", controllers.LoadLoginScreen)
 	r.GET("/register", controllers.Register)
 	r.GET("/admin", controllers.AdminLogin)
 	r.GET("/admin/dashboard", controllers.AdminDashboard)
+	r.POST("/admin/dashboard", controllers.AdminDashboard)
 	r.GET("/admin/inventory", controllers.InventoryList)
 	r.POST("/admin/inventory", controllers.InventoryList)
 	r.GET("admin/vendor", controllers.ShowVendors)
 	r.POST("/admin/vendor", controllers.ShowVendors)
 	r.POST("/admin/vendor/detail", controllers.ShowDetailVendor)
 	r.POST("/admin/inventory/detail", controllers.EditDetailProduct)
+	r.GET("/logout", controllers.Logout)
 	r.GET("/test", controllers.Test)
+
+	//API BUAT MOBILE
+	r.GET("/mobile/products", controllers.SendAllProduct)
 	r.Static("/assets", "./assets")
 	port := os.Getenv("PORT")
 	if port != "" {

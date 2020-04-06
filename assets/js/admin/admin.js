@@ -62,7 +62,7 @@ function showProductDetail(id) {
     form.submit();
 }
 
-function addProduct(){
+/*function addProduct(){
     let form = document.getElementById('productForm');
     let image = document.getElementById("image").files;
 
@@ -104,7 +104,7 @@ function addProduct(){
         });
 
     }
-}
+}*/
 
 $("document").ready(function() {
 

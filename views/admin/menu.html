@@ -1,0 +1,82 @@
+<div class="row">
+    <div class="col-12 col-sm-3 mb-5">
+        <div class="shadow rounded-lg overflow-hidden hvr-cursor-pointer" onclick="showInventory()">
+            <div class="row">
+                <div class="col-6 py-5 pl-5">
+                    Inventory
+                </div>
+                <div class="col-6 pt-3 bg-danger
+                {{ if (equal .activeMenu "product")}}
+                card-image-container-active
+                {{ else }}
+                card-image-container
+                {{ end}}
+                ">
+                    <i class="fas fa-archive position-absolute text-white"
+                       style="font-size: 6rem;
+                           font-weight: 500;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-sm-3 mb-5">
+        <div class="shadow rounded-lg overflow-hidden hvr-cursor-pointer" onclick="showVendor()">
+            <div class="row">
+                <div class="col-6 py-5 pl-5">
+                    Vendor
+                </div>
+                <div class="col-6 pt-3 bg-dark
+                {{ if (equal .activeMenu "vendor")}}
+                card-image-container-active
+                {{ else }}
+                card-image-container
+                {{ end}}
+                ">
+                    <i class="fas fa-building position-absolute text-white"
+                       style="font-size: 6rem;
+                           font-weight: 500;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-sm-3 mb-5">
+        <div class="shadow rounded-lg overflow-hidden hvr-cursor-pointer" onclick="showTask()">
+            <div class="row">
+                <div class="col-6 py-5 pl-5">
+                    Task
+                </div>
+                <div class="col-6 pt-3 bg-primary
+                {{ if (equal .activeMenu "user")}}
+                card-image-container-active
+                {{ else }}
+                card-image-container
+                {{ end}}
+                ">
+                    <i class="fas fa-tasks position-absolute text-white"
+                       style="font-size: 6rem;
+                           font-weight: 500;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-sm-3 mb-5">
+        <div class="shadow rounded-lg overflow-hidden hvr-cursor-pointer" onclick="showOrder()">
+            <div class="row">
+                <div class="col-6 py-5 pl-5">
+                    Order
+                </div>
+                <div class="col-6 pt-3 bg-info
+                {{ if (equal .activeMenu "order")}}
+                card-image-container-active
+                {{ else }}
+                card-image-container
+                {{ end}}
+                ">
+                    <i class="fas fa-shopping-basket position-absolute text-white"
+                       style="font-size: 6rem;
+                           font-weight: 500;"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -3,29 +3,80 @@ package controllers
 import (
 	"ThesisProject/models"
 	"ThesisProject/services"
+	"bytes"
+	"encoding/json"
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
+	"io"
+	"io/ioutil"
+	"mime/multipart"
 	"net/http"
 	"strconv"
 	"strings"
 )
 
+const USERNAME = "username"
+const VENDOR = "vendor"
+const PRODUCT = "product"
+const USER = "user"
+const ORDER = "order"
+
 func AdminLogin(c *gin.Context) {
-	c.HTML(http.StatusOK, "/admin/login.html", gin.H{})
+	isError := false
+	errorMessage := ""
+	if c.PostForm("username") != "" {
+		username := c.PostForm("username")
+		password := c.PostForm("password")
+		result := services.CheckAdmin(username, password)
+		if result {
+			session := sessions.Default(c)
+			session.Set(USERNAME, username)
+			session.Save()
+			c.Redirect(http.StatusFound, "/admin/dashboard")
+			return
+		} else {
+			errorMessage = "Wrong Username or Password"
+			isError = true
+		}
+	}
+	c.HTML(http.StatusOK, "/admin/login.html", gin.H{
+		"isError":      isError,
+		"errorMessage": errorMessage,
+	})
 }
 
 func AdminDashboard(c *gin.Context) {
+	if !checkLogin(c) {
+		c.Redirect(http.StatusFound, "/admin")
+		return
+	}
 	latestOrder := services.GetLatestOrder()
 	latestVendor := services.GetLatestVendor()
 	latestProduct := services.GetLatestProduct()
 	c.HTML(http.StatusOK, "/admin/dashboard.html", gin.H{
-		"user":          "ngentot",
 		"latestProduct": latestProduct,
 		"latestVendor":  latestVendor,
 		"latestOrder":   latestOrder,
+		"activeMenu":    "",
 	})
 }
 
+func checkLogin(c *gin.Context) bool {
+	session := sessions.Default(c)
+	user := session.Get(USERNAME)
+	if user == nil {
+		return false
+	} else {
+		return true
+	}
+}
+
 func InventoryList(c *gin.Context) {
+	status := checkLogin(c)
+	if !status {
+		c.Redirect(http.StatusFound, "/admin")
+		return
+	}
 	resultMessage := ""
 	resultError := ""
 	result := false
@@ -48,7 +99,9 @@ func InventoryList(c *gin.Context) {
 		product.Name = c.PostForm("name")
 		product.Quantity, convertError = strconv.Atoi(c.PostForm("quantity"))
 		product.Price, convertError = strconv.Atoi(c.PostForm("price"))
-		product.ImageUrl = c.PostForm("imageUrl")
+		file, header, _ := c.Request.FormFile("image")
+		filename := header.Filename
+		product.ImageUrl = uploadToImgur(file, filename)
 		vendor := services.FindVendorByName(c.PostForm("vendorName"))
 		vendor.Product = append(vendor.Product, product)
 		if convertError == nil {
@@ -73,10 +126,38 @@ func InventoryList(c *gin.Context) {
 		"isError":              isError,
 		"isDeleted":            isDeleted,
 		"resultDelete":         resultDelete,
+		"activeMenu":           PRODUCT,
 	})
 }
 
+func uploadToImgur(image io.Reader, filename string) string {
+	var buf = new(bytes.Buffer)
+	writer := multipart.NewWriter(buf)
+
+	part, _ := writer.CreateFormFile("image", filename)
+	io.Copy(part, image)
+
+	writer.Close()
+	req, _ := http.NewRequest("POST", "https://api.imgur.com/3/image", buf)
+	req.Header.Set("Content-Type", writer.FormDataContentType())
+	req.Header.Set("Authorization", "Client-ID "+"fca6e3aed6b3058")
+	req.Header.Set("Accept", "application/json")
+
+	client := &http.Client{}
+	res, _ := client.Do(req)
+	defer res.Body.Close()
+	b, _ := ioutil.ReadAll(res.Body)
+	var result map[string]interface{}
+	json.Unmarshal([]byte(b), &result)
+	data := result["data"].(map[string]interface{})
+	return data["link"].(string)
+}
+
 func ShowVendors(c *gin.Context) {
+	if !checkLogin(c) {
+		c.Redirect(http.StatusFound, "/admin")
+		return
+	}
 	resultMessage := ""
 	resultError := ""
 	result := false
@@ -98,10 +179,15 @@ func ShowVendors(c *gin.Context) {
 		"resultError":   resultError,
 		"isResult":      result,
 		"isError":       isError,
+		"activeMenu":    VENDOR,
 	})
 }
 
 func EditDetailProduct(c *gin.Context) {
+	if !checkLogin(c) {
+		c.Redirect(http.StatusFound, "/admin")
+		return
+	}
 	isResult := false
 	resultMessage := ""
 	id, err := strconv.Atoi(c.PostForm("id"))
@@ -124,10 +210,15 @@ func EditDetailProduct(c *gin.Context) {
 		"vendorNames":   vendorNames,
 		"isResult":      isResult,
 		"resultMessage": resultMessage,
+		"activeMenu":    PRODUCT,
 	})
 }
 
 func ShowDetailVendor(c *gin.Context) {
+	if !checkLogin(c) {
+		c.Redirect(http.StatusFound, "/admin")
+		return
+	}
 	isResult := false
 	resultMessage := ""
 	id, err := strconv.Atoi(c.PostForm("id"))
@@ -146,6 +237,14 @@ func ShowDetailVendor(c *gin.Context) {
 			"vendor":        vendor,
 			"isResult":      isResult,
 			"resultMessage": resultMessage,
+			"activeMenu":    VENDOR,
 		})
 	}
+}
+
+func Logout(c *gin.Context) {
+	session := sessions.Default(c)
+	session.Clear()
+	session.Save()
+	c.Redirect(http.StatusFound, "/admin")
 }
