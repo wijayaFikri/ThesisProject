@@ -53,11 +53,13 @@ func main() {
 	r.POST("/admin/inventory/detail", controllers.EditDetailProduct)
 	r.GET("/admin/user", controllers.ShowUsers)
 	r.POST("/admin/user", controllers.ShowUsers)
+	r.GET("/admin/order", controllers.ShowOrder)
 	r.GET("/logout", controllers.Logout)
 	r.GET("/test", controllers.Test)
 
 	//API BUAT MOBILE
 	r.GET("/mobile/products", controllers.SendAllProduct)
+	r.POST("/mobile/create/order", controllers.CreateOrder)
 	r.Static("/assets", "./assets")
 	port := os.Getenv("PORT")
 	if port != "" {

@@ -289,6 +289,14 @@ func ShowUsers(c *gin.Context) {
 	})
 }
 
+func ShowOrder(c *gin.Context) {
+	allOrder := services.GetAllOrder()
+	c.HTML(http.StatusOK, "/admin/orders.html", gin.H{
+		"allOrder":   allOrder,
+		"activeMenu": ORDER,
+	})
+}
+
 func Logout(c *gin.Context) {
 	session := sessions.Default(c)
 	session.Clear()

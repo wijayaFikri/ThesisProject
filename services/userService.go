@@ -11,7 +11,7 @@ func RemoveUser(User models.User) {
 }
 
 func UpdateUser(User models.User) {
-	Db.Update(&User)
+	Db.Save(&User)
 }
 
 func GetAllUser() []models.User {
@@ -22,7 +22,7 @@ func GetAllUser() []models.User {
 
 func FindUserById(id uint) models.User {
 	User := models.User{ID: id}
-	Db.Find(&User)
+	Db.Preload("Order.Product").Find(&User)
 	return User
 }
 
