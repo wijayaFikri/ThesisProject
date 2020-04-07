@@ -242,6 +242,53 @@ func ShowDetailVendor(c *gin.Context) {
 	}
 }
 
+func ShowUsers(c *gin.Context) {
+	isError := false
+	resultMessage := ""
+	if c.PostForm("username") != "" {
+		var user models.User
+		user.Username = c.PostForm("username")
+		user.Password = c.PostForm("password")
+		user.FirstName = c.PostForm("firstName")
+		user.LastName = c.PostForm("lastName")
+		user.Address = c.PostForm("address")
+		if services.CheckUser(user) {
+			isError = true
+			resultMessage = "User already exist"
+		} else {
+			services.AddUser(user)
+			resultMessage = "New User added successfully"
+		}
+	}
+
+	if c.PostForm("id") != "" {
+		id, err := strconv.Atoi(c.PostForm("id"))
+		if err == nil {
+			product := services.FindUserById(uint(id))
+			services.RemoveUser(product)
+			resultMessage = "Data deleted successfully"
+		}
+
+	}
+
+	var users []models.User
+	if c.PostForm("searchKey") != "" {
+		users = services.SearchUser(c.PostForm("searchKey"))
+		if !(len(users) > 0) {
+			resultMessage = "User not found"
+			isError = true
+		}
+	} else {
+		users = services.GetAllUser()
+	}
+	c.HTML(http.StatusOK, "admin/users.html", gin.H{
+		"activeMenu":    USER,
+		"allUser":       users,
+		"isError":       isError,
+		"resultMessage": resultMessage,
+	})
+}
+
 func Logout(c *gin.Context) {
 	session := sessions.Default(c)
 	session.Clear()

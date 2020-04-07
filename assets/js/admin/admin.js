@@ -6,8 +6,8 @@ function showVendor() {
     location.href = "/admin/vendor";
 }
 
-function showTask() {
-    location.href = "/admin/task";
+function showUser() {
+    location.href = "/admin/user";
 }
 
 function showOrder() {
@@ -62,6 +62,21 @@ function showProductDetail(id) {
     form.submit();
 }
 
+function deleteData(id) {
+    let form = document.createElement("form");
+    let idElement = document.createElement("input");
+
+    form.method = "POST";
+    form.action = "";
+
+    idElement.value = id;
+    idElement.name = "id";
+
+    form.appendChild(idElement);
+    document.body.appendChild(form);
+
+    form.submit();
+}
 /*function addProduct(){
     let form = document.getElementById('productForm');
     let image = document.getElementById("image").files;
@@ -105,10 +120,3 @@ function showProductDetail(id) {
 
     }
 }*/
-
-$("document").ready(function() {
-
-    $('input[type=file]').on("change", function() {
-
-    });
-});

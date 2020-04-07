@@ -27,6 +27,13 @@ func main() {
 					return false
 				}
 			},
+			"isExist": func(message string) bool {
+				if message != "" {
+					return true
+				} else {
+					return false
+				}
+			},
 		},
 	})
 	r.Use(sessions.Sessions("mySession", store))
@@ -44,6 +51,8 @@ func main() {
 	r.POST("/admin/vendor", controllers.ShowVendors)
 	r.POST("/admin/vendor/detail", controllers.ShowDetailVendor)
 	r.POST("/admin/inventory/detail", controllers.EditDetailProduct)
+	r.GET("/admin/user", controllers.ShowUsers)
+	r.POST("/admin/user", controllers.ShowUsers)
 	r.GET("/logout", controllers.Logout)
 	r.GET("/test", controllers.Test)
 

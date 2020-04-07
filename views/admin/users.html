@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Title</title>
+    <link rel="stylesheet" href="/assets/fonts/fonts.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/admin/dashboard.css">
+    <link rel="stylesheet" href="/assets/fontawesome/css/fontawesome.min.css">
+    <link href="/assets/fontawesome/css/solid.css" rel="stylesheet">
+</head>
+<body>
+
+{{ include "/admin/navbar.html" }}
+
+<div class="container mt-5">
+
+{{ include "admin/menu.html"}}
+
+    <div class="row">
+        <div class="col-12">
+            <div class="shadow">
+                <div class="p-3 bg-primary text-white d-flex align-items-center justify-content-between">
+                    <span class="font-ubuntu text-white">User List</span>
+                    <div class="d-flex align-items-center">
+                        <form class="form-inline" method="POST">
+                            <input class="form-control mr-sm-2" type="search" name="searchKey" placeholder="Search"
+                                   aria-label="Search">
+                            <button class="btn bg-white text-primary my-2 my-sm-0" type="submit">Search</button>
+                        </form>
+                        <i class="fas fa-user-plus ml-3 hvr-cursor-pointer" data-toggle="collapse"
+                           data-target="#addUserForm" aria-expanded="false" aria-controls="addUserForm"
+                           style="font-size: 2rem"></i>
+                    </div>
+                </div>
+            {{ if isExist .resultMessage }}
+                <div class="form-group d-flex justify-content-center">
+                {{ if .isError }}
+                    <p class="text-danger"> {{ .resultMessage }} </p>
+                {{ else }}
+                    <p class="text-success"> {{.resultMessage }}</p>
+                {{ end}}
+                </div>
+            {{ end}}
+                <div class="col-12 collapse pt-3" id="addUserForm">
+                    <form method="POST" action="" name="productForm" id="productForm" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="text" class="form-control" id="password" name="password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" class="form-control" id="firstName" name="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" class="form-control" id="lastName" name="lastName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <input type="text" class="form-control" id="address" name="address" required>
+                        </div>
+                        <div class="form-group d-flex justify-content-end">
+                            <input type="submit" value="Add User" class="btn btn-primary">
+                        </div>
+                    </form>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Total Order</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{ range $index, $value := .allUser }}
+                    <tr>
+                        <th scope="row">{{ add $index 1 }}</th>
+                        <td>{{ .FirstName }}</td>
+                        <td>{{ .LastName}}</td>
+                        <td>{{ .Address }}</td>
+                        <td>{{ .TotalOrder }}</td>
+                        <td>
+                            <button class="btn btn-primary" onclick="showProductDetail({{ .ID }})">Edit</button>
+                            <button class="btn btn-danger" onclick="deleteData({{ .ID }})">Delete</button>
+                        </td>
+                    </tr>
+                    {{end}}
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/assets/js/admin/admin.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</body>
+</html>
