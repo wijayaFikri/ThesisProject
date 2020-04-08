@@ -1,7 +1,5 @@
 package models
 
-import "time"
-
 type Order struct {
 	ID         uint               `gorm:"primary_key;AUTO_INCREMENT";json:"id"`
 	OrderID    string             `json:"order_id"`
@@ -10,5 +8,5 @@ type Order struct {
 	Status     string             `json:"status"`
 	Username   string             `json:"username"`
 	Address    string             `json:"address"`
-	OrderDate  time.Time          `json:"order_date"`
+	OrderDate  string             `json:"order_date"`
 }

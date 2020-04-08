@@ -54,6 +54,7 @@ func main() {
 	r.GET("/admin/user", controllers.ShowUsers)
 	r.POST("/admin/user", controllers.ShowUsers)
 	r.GET("/admin/order", controllers.ShowOrder)
+	r.POST("/admin/order/detail", controllers.ShowOrderDetail)
 	r.GET("/logout", controllers.Logout)
 	r.GET("/test", controllers.Test)
 

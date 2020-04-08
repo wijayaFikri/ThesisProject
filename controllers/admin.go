@@ -309,6 +309,17 @@ func ShowOrder(c *gin.Context) {
 	})
 }
 
+func ShowOrderDetail(c *gin.Context) {
+	id, _ := strconv.Atoi(c.PostForm("id"))
+	order := services.FindOrderById(uint(id))
+	productSize := len(order.Product)
+	c.HTML(http.StatusOK, "/admin/order_detail.html", gin.H{
+		"order":       order,
+		"activeMenu":  ORDER,
+		"productSize": productSize,
+	})
+}
+
 func Logout(c *gin.Context) {
 	session := sessions.Default(c)
 	session.Clear()

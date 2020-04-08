@@ -38,7 +38,7 @@
                     {{ range $index, $value := .allOrder }}
                     <tr>
                         <th scope="row">{{ add $index 1 }}</th>
-                        <td>{{ .OrderID }}</td>
+                        <td onclick="showOrderDetail({{ .ID }})" class="text-info hvr-underline-text hvr-cursor-pointer">{{ .OrderID }}</td>
                         <td>{{ .TotalPrice}}</td>
                         <td>{{ .Status }}</td>
                         <td>{{ .Username }}</td>
