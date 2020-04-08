@@ -43,8 +43,8 @@ func CreateOrder(c *gin.Context) {
 	reqBody := string(buf[0:num])
 	var result map[string]interface{}
 	json.Unmarshal([]byte(reqBody), &result)
-	data := result["productList"].([]interface{})
-	address := result["address"].(string)
+	data := result["product"].([]interface{})
+	address := result["Address"].(string)
 
 	var order models.Order
 	orderID := ""
