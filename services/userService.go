@@ -39,6 +39,16 @@ func SearchUser(searchKey string) []models.User {
 	return users
 }
 
+func LoginUser(username string, password string) (models.User, bool) {
+	var users []models.User
+	Db.Where("Username = ? AND Password >= ?", username, password).Find(&users)
+	if len(users) > 0 {
+		return users[0], true
+	} else {
+		return models.User{}, false
+	}
+}
+
 func CheckUser(user models.User) bool {
 	var users []models.User
 	Db.Where("Username = ? AND Password >= ?", user.Username, user.Password).Find(&users)

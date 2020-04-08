@@ -23,6 +23,20 @@ func SendAllProduct(c *gin.Context) {
 	})
 }
 
+func LoginUser(c *gin.Context) {
+	buf := make([]byte, 1024)
+	num, _ := c.Request.Body.Read(buf)
+	reqBody := string(buf[0:num])
+	var result map[string]interface{}
+	json.Unmarshal([]byte(reqBody), &result)
+	username := result["username"].(string)
+	password := result["password"].(string)
+	user, _ := services.LoginUser(username, password)
+	c.JSON(http.StatusOK, gin.H{
+		USER: user,
+	})
+}
+
 func CreateOrder(c *gin.Context) {
 	buf := make([]byte, 1024)
 	num, _ := c.Request.Body.Read(buf)
@@ -60,7 +74,8 @@ func CreateOrder(c *gin.Context) {
 	}
 	order.Status = STATUS_OPEN
 	order.TotalPrice = totalPrice
-	user := services.FindUserById(1)
+	userId := result["userId"].(uint)
+	user := services.FindUserById(userId)
 	user.Order = append(user.Order, order)
 	services.UpdateUser(user)
 	c.JSON(http.StatusOK, gin.H{

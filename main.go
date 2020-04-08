@@ -60,6 +60,7 @@ func main() {
 	//API BUAT MOBILE
 	r.GET("/mobile/products", controllers.SendAllProduct)
 	r.POST("/mobile/create/order", controllers.CreateOrder)
+	r.POST("/mobile/user/login", controllers.LoginUser)
 	r.Static("/assets", "./assets")
 	port := os.Getenv("PORT")
 	if port != "" {
