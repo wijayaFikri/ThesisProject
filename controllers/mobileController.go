@@ -44,7 +44,7 @@ func CreateOrder(c *gin.Context) {
 	var result map[string]interface{}
 	json.Unmarshal([]byte(reqBody), &result)
 	data := result["productList"].([]interface{})
-	address := result["address"]
+	address := result["address"].(string)
 
 	var order models.Order
 	orderID := ""
@@ -75,6 +75,7 @@ func CreateOrder(c *gin.Context) {
 	order.Status = STATUS_OPEN
 	order.TotalPrice = totalPrice
 	order.OrderDate = time.Now()
+	order.Address = address
 	userId := uint(result["userId"].(float64))
 	user := services.FindUserById(userId)
 	user.Order = append(user.Order, order)
