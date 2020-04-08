@@ -70,7 +70,7 @@ func CreateOrder(c *gin.Context) {
 		purchasedProduct.Name = productInterface["name"].(string)
 		purchasedProduct.PurchaseDate = time.Now()
 		order.Product = append(order.Product, purchasedProduct)
-		totalPrice = totalPrice + purchasedProduct.Price
+		totalPrice = totalPrice + (purchasedProduct.Price * purchasedProduct.Quantity)
 	}
 	order.Status = STATUS_OPEN
 	order.TotalPrice = totalPrice
