@@ -61,6 +61,7 @@ func main() {
 	r.GET("/mobile/products", controllers.SendAllProduct)
 	r.POST("/mobile/create/order", controllers.CreateOrder)
 	r.POST("/mobile/user/login", controllers.LoginUser)
+	r.POST("mobile/order/history", controllers.SendOrderHistory)
 	r.Static("/assets", "./assets")
 	port := os.Getenv("PORT")
 	if port != "" {

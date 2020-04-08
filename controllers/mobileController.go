@@ -74,6 +74,7 @@ func CreateOrder(c *gin.Context) {
 	}
 	order.Status = STATUS_OPEN
 	order.TotalPrice = totalPrice
+	order.OrderDate = time.Now()
 	userId := uint(result["userId"].(float64))
 	user := services.FindUserById(userId)
 	user.Order = append(user.Order, order)
@@ -81,5 +82,13 @@ func CreateOrder(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"data":    data,
 		"address": address,
+	})
+}
+
+func SendOrderHistory(c *gin.Context) {
+	userId, _ := strconv.Atoi(c.PostForm("userId"))
+	user := services.FindUserById(uint(userId))
+	c.JSON(http.StatusOK, gin.H{
+		"orders": user.Order,
 	})
 }
