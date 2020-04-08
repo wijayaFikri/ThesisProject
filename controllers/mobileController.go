@@ -74,7 +74,7 @@ func CreateOrder(c *gin.Context) {
 	}
 	order.Status = STATUS_OPEN
 	order.TotalPrice = totalPrice
-	userId := result["userId"].(uint)
+	userId := uint(result["userId"].(float64))
 	user := services.FindUserById(userId)
 	user.Order = append(user.Order, order)
 	services.UpdateUser(user)
