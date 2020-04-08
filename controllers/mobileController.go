@@ -79,6 +79,7 @@ func CreateOrder(c *gin.Context) {
 	userId := uint(result["userId"].(float64))
 	user := services.FindUserById(userId)
 	user.Order = append(user.Order, order)
+	user.TotalOrder = user.TotalOrder + 1
 	services.UpdateUser(user)
 	c.JSON(http.StatusOK, gin.H{
 		"data":    data,

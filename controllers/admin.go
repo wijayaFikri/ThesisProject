@@ -83,6 +83,7 @@ func InventoryList(c *gin.Context) {
 	isError := false
 	isDeleted := false
 	resultDelete := ""
+	searchMessage := ""
 	if c.PostForm("id") != "" {
 		id, err := strconv.Atoi(c.PostForm("id"))
 		if err == nil {
@@ -113,7 +114,17 @@ func InventoryList(c *gin.Context) {
 		resultMessage = "Data added successfully"
 		result = true
 	}
-	allProduct := services.GetAllProduct()
+	var allProduct []models.Product
+	if c.PostForm("searchKey") != "" {
+		allProduct = services.SearchProduct(c.PostForm("searchKey"))
+		if !(len(allProduct) > 0) {
+			searchMessage = "Product not found"
+			isError = true
+		}
+	} else {
+		allProduct = services.GetAllProduct()
+	}
+
 	mostPurchasedProduct := services.GetMostPurchasedProduct()
 	vendorNames := services.GetAllVendorName()
 	c.HTML(http.StatusOK, "admin/inventories.html", gin.H{
@@ -127,6 +138,7 @@ func InventoryList(c *gin.Context) {
 		"isDeleted":            isDeleted,
 		"resultDelete":         resultDelete,
 		"activeMenu":           PRODUCT,
+		"searchMessage":        searchMessage,
 	})
 }
 

@@ -20,6 +20,13 @@ func GetAllProduct() []models.Product {
 	return products
 }
 
+func SearchProduct(key string) []models.Product {
+	var products []models.Product
+	key = "%" + key + "%"
+	Db.Where("Name LIKE ?", key).Find(&products)
+	return products
+}
+
 func GetLatestProduct() []models.Product {
 	var Products []models.Product
 	Db.Order("ID desc").Limit(7).Find(&Products)

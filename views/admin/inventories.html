@@ -21,11 +21,14 @@
 
     <div class="row">
         <div class="col-12 col-sm-6">
-            <div class="shadow h-100">
-                <div class="p-3 bg-danger text-white">
-                    Add Product
+            <div class="shadow">
+                <div class="p-3 bg-danger text-white d-flex justify-content-between align-items-center">
+                    <span class="font-hk-grotesk">Add Product</span>
+                    <i class="fas fa-chevron-down ml-3 hvr-cursor-pointer" data-toggle="collapse"
+                       data-target="#addProductForm" aria-expanded="false" aria-controls="addProductForm"
+                       style="font-size: 2rem"></i>
                 </div>
-                <div class="px-3 py-3">
+                <div class="px-3 py-3 collapse" id="addProductForm">
                     <form method="POST" action="" name="productForm" id="productForm" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="name">Product Name</label>
@@ -41,7 +44,8 @@
                         </div>
                         <div class="form-group">
                             <label for="image">Product Image</label>
-                            <input type="file" accept="image/*" class="form-control-file" name="image" id="image" required>
+                            <input type="file" accept="image/*" class="form-control-file" name="image" id="image"
+                                   required>
                         </div>
                         <div class="form-group">
                             <label for="formGroupExampleInput4">Product Vendor</label>
@@ -69,32 +73,37 @@
         </div>
 
         <div class="col-12 col-sm-6">
-            <div class="shadow h-100">
-                <div class="p-3 bg-danger text-white">
-                    Most Purchased Product
+            <div class="shadow">
+                <div class="p-3 bg-danger text-white d-flex justify-content-between align-items-center">
+                    <span class="font-hk-grotesk">Most Purchased Product</span>
+                    <i class="fas fa-chevron-down ml-3 hvr-cursor-pointer" data-toggle="collapse"
+                       data-target="#mostPurchasedProduct" aria-expanded="false" aria-controls="mostPurchasedProduct"
+                       style="font-size: 2rem"></i>
                 </div>
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th scope="col">No</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Purchased</th>
-                        <th scope="col">Vendor</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {{ range $index, $value := .mostPurchasedProduct }}
-                    <tr>
-                        <th scope="row">{{ add $index 1 }}</th>
-                        <td>{{ .Name }}</td>
-                        <td>{{ .Price }}</td>
-                        <td>{{ .Purchased }}</td>
-                        <td>{{ .VendorName }}</td>
-                    </tr>
-                    {{end}}
-                    </tbody>
-                </table>
+                <div class="collapse" id="mostPurchasedProduct">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Purchased</th>
+                            <th scope="col">Vendor</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{ range $index, $value := .mostPurchasedProduct }}
+                        <tr>
+                            <th scope="row">{{ add $index 1 }}</th>
+                            <td>{{ .Name }}</td>
+                            <td>{{ .Price }}</td>
+                            <td>{{ .Purchased }}</td>
+                            <td>{{ .VendorName }}</td>
+                        </tr>
+                        {{end}}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -105,8 +114,13 @@
     <div class="row mt-5">
         <div class="col-12">
             <div class="shadow">
-                <div class="p-3 bg-danger text-white">
+                <div class="p-3 bg-danger text-white d-flex justify-content-between align-items-center">
                     All Product
+                    <form class="form-inline" method="POST">
+                        <input class="form-control mr-sm-2" type="search" name="searchKey" placeholder="Search"
+                               aria-label="Search">
+                        <button class="btn bg-white text-danger my-2 my-sm-0" type="submit">Search</button>
+                    </form>
                 </div>
             {{ if .isDeleted }}
                 <div class="text-center py-3">
@@ -134,7 +148,7 @@
                         <td>{{ .Price }}</td>
                         <td> {{ .Quantity }}</td>
                         <td>{{ .Purchased }}</td>
-                        <td> <a href="{{ .ImageUrl }}" target="_blank">{{ .ImageUrl }}</a></td>
+                        <td><a href="{{ .ImageUrl }}" target="_blank">{{ .ImageUrl }}</a></td>
                         <td>{{ .VendorName }}</td>
                         <td>
                             <button class="btn btn-primary" onclick="showProductDetail({{ .ID }})">Edit</button>
@@ -144,6 +158,11 @@
                     {{end}}
                     </tbody>
                 </table>
+            {{ if isExist .searchMessage }}
+                <div class="text-center py-3">
+                    <span class="text-danger">{{ .searchMessage }}</span>
+                </div>
+            {{ end }}
             </div>
         </div>
     </div>
