@@ -55,8 +55,11 @@ func main() {
 	r.POST("/admin/user", controllers.ShowUsers)
 	r.GET("/admin/order", controllers.ShowOrder)
 	r.POST("/admin/order/detail", controllers.ShowOrderDetail)
+	r.POST("/admin/order/result", controllers.ProcessOrder)
 	r.GET("/logout", controllers.Logout)
 	r.GET("/test", controllers.Test)
+	r.GET("/admin/employee/manage", controllers.EmployeeManagement)
+	r.POST("/admin/employee/manage", controllers.EmployeeManagement)
 
 	//API BUAT MOBILE
 	r.GET("/mobile/products", controllers.SendAllProduct)

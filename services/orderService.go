@@ -11,7 +11,7 @@ func RemoveOrder(Order models.Order) {
 }
 
 func UpdateOrder(Order models.Order) {
-	Db.Update(&Order)
+	Db.Save(&Order)
 }
 
 func GetAllOrder() []models.Order {

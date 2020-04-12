@@ -11,7 +11,7 @@ func RemoveProduct(product models.Product) {
 }
 
 func UpdateProduct(product models.Product) {
-	Db.Update(&product)
+	Db.Save(&product)
 }
 
 func GetAllProduct() []models.Product {

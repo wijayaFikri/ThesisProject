@@ -20,6 +20,7 @@ const VENDOR = "vendor"
 const PRODUCT = "product"
 const USER = "user"
 const ORDER = "order"
+const IS_OWNER = "is_owner"
 
 func AdminLogin(c *gin.Context) {
 	isError := false
@@ -29,8 +30,10 @@ func AdminLogin(c *gin.Context) {
 		password := c.PostForm("password")
 		result := services.CheckAdmin(username, password)
 		if result {
+			admin := services.GetAdmin(username, password)
 			session := sessions.Default(c)
 			session.Set(USERNAME, username)
+			session.Set(IS_OWNER, admin.IsOwner)
 			session.Save()
 			c.Redirect(http.StatusFound, "/admin/dashboard")
 			return
@@ -50,14 +53,22 @@ func AdminDashboard(c *gin.Context) {
 		c.Redirect(http.StatusFound, "/admin")
 		return
 	}
+	/*	var newAdmin models.Admin
+		newAdmin.Username = "sarboah"
+		newAdmin.Password = "sarbini"
+		newAdmin.Birthday = time.Now()
+		newAdmin.IsOwner = true
+		services.SaveAdmin(newAdmin)*/
 	latestOrder := services.GetLatestOrder()
 	latestVendor := services.GetLatestVendor()
 	latestProduct := services.GetLatestProduct()
+	isOwner := getIsOwner(c)
 	c.HTML(http.StatusOK, "/admin/dashboard.html", gin.H{
 		"latestProduct": latestProduct,
 		"latestVendor":  latestVendor,
 		"latestOrder":   latestOrder,
 		"activeMenu":    "",
+		"isOwner":       isOwner,
 	})
 }
 
@@ -69,6 +80,11 @@ func checkLogin(c *gin.Context) bool {
 	} else {
 		return true
 	}
+}
+
+func getIsOwner(c *gin.Context) bool {
+	session := sessions.Default(c)
+	return session.Get(IS_OWNER).(bool)
 }
 
 func InventoryList(c *gin.Context) {
@@ -127,6 +143,7 @@ func InventoryList(c *gin.Context) {
 
 	mostPurchasedProduct := services.GetMostPurchasedProduct()
 	vendorNames := services.GetAllVendorName()
+	isOwner := getIsOwner(c)
 	c.HTML(http.StatusOK, "admin/inventories.html", gin.H{
 		"allProduct":           allProduct,
 		"mostPurchasedProduct": mostPurchasedProduct,
@@ -139,6 +156,7 @@ func InventoryList(c *gin.Context) {
 		"resultDelete":         resultDelete,
 		"activeMenu":           PRODUCT,
 		"searchMessage":        searchMessage,
+		"isOwner":              isOwner,
 	})
 }
 
@@ -184,6 +202,7 @@ func ShowVendors(c *gin.Context) {
 	}
 	latestVendor := services.GetLatestVendor()
 	allVendor := services.GetAllVendor()
+	isOwner := getIsOwner(c)
 	c.HTML(http.StatusOK, "admin/vendors.html", gin.H{
 		"latestVendor":  latestVendor,
 		"allVendor":     allVendor,
@@ -192,6 +211,7 @@ func ShowVendors(c *gin.Context) {
 		"isResult":      result,
 		"isError":       isError,
 		"activeMenu":    VENDOR,
+		"isOwner":       isOwner,
 	})
 }
 
@@ -217,12 +237,14 @@ func EditDetailProduct(c *gin.Context) {
 		}
 	}
 	vendorNames := services.GetAllVendorName()
+	isOwner := getIsOwner(c)
 	c.HTML(http.StatusOK, "admin/product_detail.html", gin.H{
 		"product":       product,
 		"vendorNames":   vendorNames,
 		"isResult":      isResult,
 		"resultMessage": resultMessage,
 		"activeMenu":    PRODUCT,
+		"isOwner":       isOwner,
 	})
 }
 
@@ -244,12 +266,14 @@ func ShowDetailVendor(c *gin.Context) {
 		resultMessage = "Changes saved successfully"
 	}
 	vendor := services.FindVendorById(id)
+	isOwner := getIsOwner(c)
 	if err == nil {
 		c.HTML(http.StatusOK, "admin/vendor_detail.html", gin.H{
 			"vendor":        vendor,
 			"isResult":      isResult,
 			"resultMessage": resultMessage,
 			"activeMenu":    VENDOR,
+			"isOwner":       isOwner,
 		})
 	}
 }
@@ -293,19 +317,23 @@ func ShowUsers(c *gin.Context) {
 	} else {
 		users = services.GetAllUser()
 	}
+	isOwner := getIsOwner(c)
 	c.HTML(http.StatusOK, "admin/users.html", gin.H{
 		"activeMenu":    USER,
 		"allUser":       users,
 		"isError":       isError,
 		"resultMessage": resultMessage,
+		"isOwner":       isOwner,
 	})
 }
 
 func ShowOrder(c *gin.Context) {
 	allOrder := services.GetAllOrder()
+	isOwner := getIsOwner(c)
 	c.HTML(http.StatusOK, "/admin/orders.html", gin.H{
 		"allOrder":   allOrder,
 		"activeMenu": ORDER,
+		"isOwner":    isOwner,
 	})
 }
 
@@ -313,10 +341,75 @@ func ShowOrderDetail(c *gin.Context) {
 	id, _ := strconv.Atoi(c.PostForm("id"))
 	order := services.FindOrderById(uint(id))
 	productSize := len(order.Product)
+	isOwner := getIsOwner(c)
 	c.HTML(http.StatusOK, "/admin/order_detail.html", gin.H{
 		"order":       order,
 		"activeMenu":  ORDER,
 		"productSize": productSize,
+		"isOwner":     isOwner,
+	})
+}
+
+func ProcessOrder(c *gin.Context) {
+	id, _ := strconv.Atoi(c.PostForm("id"))
+	order := services.FindOrderById(uint(id))
+	if order.Status == STATUS_OPEN {
+		order.Status = STATUS_PROCESSED
+	} else if order.Status == STATUS_PROCESSED {
+		order.Status = STATUS_SENT
+	} else if order.Status == STATUS_SENT {
+		order.Status = STATUS_RECEIVED
+	}
+	services.UpdateOrder(order)
+	resultMessage := "The order status of " + order.OrderID + " has been changed to " + order.Status + " Successfully"
+	productSize := len(order.Product)
+	isOwner := getIsOwner(c)
+	c.HTML(http.StatusOK, "/admin/order_result.html", gin.H{
+		"order":         order,
+		"activeMenu":    ORDER,
+		"productSize":   productSize,
+		"resultMessage": resultMessage,
+		"isOwner":       isOwner,
+	})
+}
+
+func EmployeeManagement(c *gin.Context) {
+	resultMessage := ""
+	session := sessions.Default(c)
+	usernameSession := session.Get(USERNAME).(string)
+	admin := services.GetAdminByUsername(usernameSession)
+	if !checkLogin(c) {
+		c.Redirect(http.StatusFound, "/admin")
+		return
+	}
+
+	if c.PostForm("ownerUsername") != "" {
+		newOwnerUsername := c.PostForm("ownerUsername")
+		newOwnerPassword := c.PostForm("ownerPassword")
+		admin.Username = newOwnerUsername
+		admin.Password = newOwnerPassword
+		services.SaveAdmin(admin)
+		resultMessage = "Changes saved Successfully"
+	}
+
+	if c.PostForm("firstname") != "" {
+		firstname := c.PostForm("firstname")
+		lastname := c.PostForm("lastname")
+		username := c.PostForm("username")
+		password := c.PostForm("password")
+		newAdmin := models.Admin{FirstName: firstname, LastName: lastname, Username: username, Password: password}
+		services.SaveAdmin(newAdmin)
+		resultMessage = "New Employee added Successfully"
+	}
+
+	isOwner := getIsOwner(c)
+	admins := services.GetAllAdmin()
+	c.HTML(http.StatusOK, "/admin/employee_management.html", gin.H{
+		"isOwner":       isOwner,
+		"activeMenu":    "",
+		"allAdmin":      admins,
+		"resultMessage": resultMessage,
+		"admin":         admin,
 	})
 }
 

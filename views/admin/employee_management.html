@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Title</title>
+    <link rel="stylesheet" href="/assets/fonts/fonts.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/admin/dashboard.css">
+    <link rel="stylesheet" href="/assets/fontawesome/css/fontawesome.min.css">
+    <link href="/assets/fontawesome/css/solid.css" rel="stylesheet">
+</head>
+<body>
+
+{{ include "/admin/navbar.html" }}
+
+<div class="container mt-5">
+
+{{ include "admin/menu.html"}}
+
+{{ if isExist .resultMessage }}
+
+    <div class="alert alert-success" role="alert">
+    {{ .resultMessage }}
+    </div>
+
+{{ end }}
+
+    <div class="row">
+
+        <div class="col-12 mt-3">
+            <div class="shadow">
+                <div class="p-3 bg-secondary text-white d-flex justify-content-between align-items-center">
+                    <span class="font-hk-grotesk">My Credential</span>
+                    <i class="fas fa-chevron-down ml-3 hvr-cursor-pointer" data-toggle="collapse"
+                       data-target="#credentialTable" aria-expanded="false" aria-controls="credentialTable"
+                       style="font-size: 2rem"></i>
+                </div>
+                <div class="collapse" id="credentialTable">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Username</th>
+                            <th scope="col">Password</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <input type="text" class="form-control" value="{{ .admin.Username }}" id="ownerUsername">
+                            </td>
+                            <td>
+                                <input type="password" class="form-control" value="{{ .admin.Password }}" id="ownerPassword">
+                            </td>
+                            <td>
+                                <button class="btn btn-secondary" onclick="changeOwnerCredential()">Submit Changes
+                                </button>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 mt-3">
+            <div class="shadow">
+                <div class="p-3 bg-secondary text-white d-flex justify-content-between align-items-center">
+                    <span class="font-hk-grotesk">Add Employee</span>
+                    <i class="fas fa-chevron-down ml-3 hvr-cursor-pointer" data-toggle="collapse"
+                       data-target="#addEmployeeForm" aria-expanded="false" aria-controls="addEmployeeForm"
+                       style="font-size: 2rem"></i>
+                </div>
+                <div class="p-3 collapse" id="addEmployeeForm">
+                    <form method="POST" action="">
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">First Name</label>
+                            <input type="text" class="form-control" id="formGroupExampleInput" name="firstname">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput2">Last Name</label>
+                            <input type="text" class="form-control" id="formGroupExampleInput2" name="lastname">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput3">Username</label>
+                            <input type="text" class="form-control" id="formGroupExampleInput3" name="username">
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput3">Password</label>
+                            <input type="text" class="form-control" id="formGroupExampleInput3" name="password">
+                        </div>
+                        <div class="form-group d-flex justify-content-end">
+                            <input type="submit" value="Add Employee" class="btn btn-dark">
+                        </div>
+                    {{/*                {{ if .isResult }}
+                    <div class="form-group d-flex justify-content-center">
+                    {{ if .isError }}
+                        <p class="text-danger"> {{ .resultMessage }} </p>
+                    {{ else }}
+                        <p class="text-success"> {{.resultMessage }}</p>
+                    {{ end}}
+                    </div>
+                {{ end}}*/}}
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-12 mt-3">
+            <div class="shadow" id="orderedProductDetail">
+                <div class="p-3 bg-secondary text-white">
+                    Employee List
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Password</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{ range $index, $value := .allAdmin }}
+                    <tr>
+                        <th scope="row">{{ add $index 1 }}</th>
+                        <td>{{ .FirstName }}</td>
+                        <td>{{ .LastName }}</td>
+                        <td> {{ .Username }}</td>
+                        <td>{{ .Password }}</td>
+                    </tr>
+                    {{end}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script src="/assets/js/admin/admin.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</body>
+</html>

@@ -69,6 +69,10 @@ func CreateOrder(c *gin.Context) {
 		purchasedProduct.ImageUrl = productInterface["image_url"].(string)
 		purchasedProduct.Name = productInterface["name"].(string)
 		purchasedProduct.PurchaseDate = time.Now()
+		product := services.FindProductById(uint(id))
+		product.Quantity = product.Quantity - purchasedProduct.Quantity
+		product.Purchased = product.Purchased + purchasedProduct.Quantity
+		services.UpdateProduct(product)
 		order.Product = append(order.Product, purchasedProduct)
 		totalPrice = totalPrice + (purchasedProduct.Price * purchasedProduct.Quantity)
 	}

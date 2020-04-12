@@ -64,6 +64,31 @@ function showOrderDetail(id) {
     form.submit();
 }
 
+function changeOwnerCredential() {
+    let form = document.createElement("form");
+    let ownerUsername = document.createElement("input");
+    let ownerPassword = document.createElement("input");
+
+    let ownerUsernameForm = document.getElementById("ownerUsername");
+    let ownerPasswordForm = document.getElementById("ownerPassword");
+    form.style.display = 'none';
+
+    form.method = "POST";
+    form.action = "";
+
+    ownerUsername.value = ownerUsernameForm.value;
+    ownerUsername.name = "ownerUsername";
+
+    ownerPassword.value = ownerPasswordForm.value;
+    ownerPassword.name = "ownerPassword";
+
+    form.appendChild(ownerUsername);
+    form.appendChild(ownerPassword);
+    document.body.appendChild(form);
+
+    form.submit();
+
+}
 function showProductDetail(id) {
     let form = document.createElement("form");
     let idElement = document.createElement("input");

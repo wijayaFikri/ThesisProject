@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand font-poppins" href="/admin/dashboard">LSC</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="NonavbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -8,8 +8,16 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
         </ul>
-        <a href="/logout" class="navbar-text text-white font-ubuntu">LOGOUT</a>
-{{/*        <span class="navbar-text text-white">
+        <ul class="nav navbar-nav navbar-right">
+        {{ if .isOwner }}
+            <li class="mr-2"><a href="/admin/employee/manage" class="text-white"><span class="fas fa-user mr-1"></span>Manage Employee</a>
+            </li>
+        {{ end }}
+            <li><a href="/logout" class="text-white"><span class="fas fa-sign-out-alt"></span> Logout</a></li>
+        </ul>
+    {{/*        <a href="/kmana" class="navbar-text text-white font-ubuntu">Manage Employee</a>
+        <a href="/logout" class="navbar-text text-white font-ubuntu">Logout</a>*/}}
+    {{/*        <span class="navbar-text text-white">
             Logout
         </span>*/}}
     </div>
