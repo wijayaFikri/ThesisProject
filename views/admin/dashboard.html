@@ -88,30 +88,20 @@
                         <thead>
                         <tr>
                             <th scope="col">No</th>
-                            <th scope="col">First</th>
-                            <th scope="col">Last</th>
-                            <th scope="col">Handle</th>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col">Address</th>
                         </tr>
                         </thead>
                         <tbody>
+                        {{ range $index, $value := .latestUser }}
                         <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
+                            <th scope="row">{{ add $index 1 }}</th>
+                            <td>{{ .FirstName }}</td>
+                            <td>{{ .LastName}}</td>
+                            <td>{{ .Address }}</td>
                         </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                            <td>@twitter</td>
-                        </tr>
+                        {{end}}
                         </tbody>
                     </table>
                 </div>
@@ -138,6 +128,36 @@
                             <td>{{ .OrderID }}</td>
                             <td>{{ .Status }}</td>
                             <td>{{ .TotalPrice }}</td>
+                        </tr>
+                        {{end}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                <div class="rounded shadow">
+                    <div class="p-3 bg-warning text-white">
+                        thinned stock
+                    </div>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Vendor</th>
+                            <th scope="col">Stock</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{ range $index, $value := .stockLessThanTen }}
+                        <tr>
+                            <th scope="row">{{ add $index 1 }}</th>
+                            <td>{{ .Name }}</td>
+                            <td>{{ .VendorName}}</td>
+                            <td>{{ .Quantity }}</td>
                         </tr>
                         {{end}}
                         </tbody>

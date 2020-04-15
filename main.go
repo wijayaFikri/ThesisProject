@@ -60,6 +60,7 @@ func main() {
 	r.GET("/test", controllers.Test)
 	r.GET("/admin/employee/manage", controllers.EmployeeManagement)
 	r.POST("/admin/employee/manage", controllers.EmployeeManagement)
+	r.POST("/vendor/detail/add/product", controllers.ShowAddMoreQuantityVendor)
 
 	//API BUAT MOBILE
 	r.GET("/mobile/products", controllers.SendAllProduct)

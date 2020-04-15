@@ -33,6 +33,12 @@ func GetLatestProduct() []models.Product {
 	return Products
 }
 
+func GetStockLessThanTen() []models.Product {
+	var Products []models.Product
+	Db.Where("Quantity <= ?", 10).Find(&Products)
+	return Products
+}
+
 func GetMostPurchasedProduct() []models.Product {
 	var Products []models.Product
 	Db.Order("Purchased desc").Limit(8).Find(&Products)

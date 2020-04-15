@@ -21,6 +21,7 @@ const PRODUCT = "product"
 const USER = "user"
 const ORDER = "order"
 const IS_OWNER = "is_owner"
+const VENDOR_ID_KEY = "vendor_id"
 
 func AdminLogin(c *gin.Context) {
 	isError := false
@@ -53,22 +54,20 @@ func AdminDashboard(c *gin.Context) {
 		c.Redirect(http.StatusFound, "/admin")
 		return
 	}
-	/*	var newAdmin models.Admin
-		newAdmin.Username = "sarboah"
-		newAdmin.Password = "sarbini"
-		newAdmin.Birthday = time.Now()
-		newAdmin.IsOwner = true
-		services.SaveAdmin(newAdmin)*/
 	latestOrder := services.GetLatestOrder()
 	latestVendor := services.GetLatestVendor()
 	latestProduct := services.GetLatestProduct()
+	latestUser := services.GetLatestUser()
+	stockLessThanTen := services.GetStockLessThanTen()
 	isOwner := getIsOwner(c)
 	c.HTML(http.StatusOK, "/admin/dashboard.html", gin.H{
-		"latestProduct": latestProduct,
-		"latestVendor":  latestVendor,
-		"latestOrder":   latestOrder,
-		"activeMenu":    "",
-		"isOwner":       isOwner,
+		"latestProduct":    latestProduct,
+		"latestVendor":     latestVendor,
+		"latestOrder":      latestOrder,
+		"latestUser":       latestUser,
+		"stockLessThanTen": stockLessThanTen,
+		"activeMenu":       "",
+		"isOwner":          isOwner,
 	})
 }
 
@@ -97,24 +96,28 @@ func InventoryList(c *gin.Context) {
 	resultError := ""
 	result := false
 	isError := false
-	isDeleted := false
-	resultDelete := ""
 	searchMessage := ""
 	if c.PostForm("id") != "" {
 		id, err := strconv.Atoi(c.PostForm("id"))
 		if err == nil {
 			product := services.FindProductById(uint(id))
 			services.RemoveProduct(product)
-			resultDelete = "Data deleted successfully"
-			isDeleted = true
+			resultMessage = "Data deleted successfully"
 		}
 
+	}
+
+	if c.PostForm("categoryName") != "" {
+		var category models.Category
+		category.CategoryName = c.PostForm("categoryName")
+		services.AddCategory(category)
+		resultMessage = "New Category Added Successfully"
 	}
 	if c.PostForm("name") != "" {
 		var product models.Product
 		var convertError error
 		product.Name = c.PostForm("name")
-		product.Quantity, convertError = strconv.Atoi(c.PostForm("quantity"))
+		product.Category = c.PostForm("category")
 		product.Price, convertError = strconv.Atoi(c.PostForm("price"))
 		file, header, _ := c.Request.FormFile("image")
 		filename := header.Filename
@@ -143,6 +146,7 @@ func InventoryList(c *gin.Context) {
 
 	mostPurchasedProduct := services.GetMostPurchasedProduct()
 	vendorNames := services.GetAllVendorName()
+	categoryNames := services.GetAllCategoryName()
 	isOwner := getIsOwner(c)
 	c.HTML(http.StatusOK, "admin/inventories.html", gin.H{
 		"allProduct":           allProduct,
@@ -152,11 +156,10 @@ func InventoryList(c *gin.Context) {
 		"resultError":          resultError,
 		"isResult":             result,
 		"isError":              isError,
-		"isDeleted":            isDeleted,
-		"resultDelete":         resultDelete,
 		"activeMenu":           PRODUCT,
 		"searchMessage":        searchMessage,
 		"isOwner":              isOwner,
+		"categoryNames":        categoryNames,
 	})
 }
 
@@ -256,6 +259,9 @@ func ShowDetailVendor(c *gin.Context) {
 	isResult := false
 	resultMessage := ""
 	id, err := strconv.Atoi(c.PostForm("id"))
+	session := sessions.Default(c)
+	session.Set(VENDOR_ID_KEY, id)
+	session.Save()
 	if c.PostForm("name") != "" {
 		updatedVendor := services.FindVendorById(id)
 		updatedVendor.VendorName = c.PostForm("name")
@@ -276,6 +282,39 @@ func ShowDetailVendor(c *gin.Context) {
 			"isOwner":       isOwner,
 		})
 	}
+}
+
+func ShowAddMoreQuantityVendor(c *gin.Context) {
+	if !checkLogin(c) {
+		c.Redirect(http.StatusFound, "/admin")
+		return
+	}
+	resultMessage := ""
+	if c.PostForm("payload") != "" {
+		payload := c.PostForm("payload")
+		var result []map[string]string
+		json.Unmarshal([]byte(payload), &result)
+		for _, element := range result {
+			id, _ := strconv.Atoi(element["id"])
+			product := services.FindProductById(uint(id))
+			addedQuantity, _ := strconv.Atoi(element["purchase_quantity"])
+			product.Quantity = product.Quantity + addedQuantity
+			services.UpdateProduct(product)
+		}
+
+		resultMessage = "Product purchased Successfully"
+	}
+	session := sessions.Default(c)
+
+	id := session.Get(VENDOR_ID_KEY).(int)
+	vendor := services.FindVendorById(id)
+	isOwner := getIsOwner(c)
+	c.HTML(http.StatusOK, "admin/vendor_add_more_quantity.html", gin.H{
+		"resultMessage": resultMessage,
+		"activeMenu":    VENDOR,
+		"isOwner":       isOwner,
+		"vendor":        vendor,
+	})
 }
 
 func ShowUsers(c *gin.Context) {

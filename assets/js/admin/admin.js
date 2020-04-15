@@ -125,3 +125,65 @@ function scrollToDetail() {
     var element = document.getElementById('orderedProductDetail');
     element.scrollIntoView({ behavior: 'smooth', block: 'start'});
 }
+
+function scrollToAddCategory() {
+    var element = document.getElementById('addNewCategory');
+    element.style.display = 'block';
+    element.scrollIntoView({ behavior: 'smooth', block: 'center'});
+}
+
+function submitPurchaseRequest() {
+    let form = document.getElementById('purchaseForm');
+    let map = [];
+    let counter = 0;
+    let elements = form.elements;
+    let tempMap = {};
+    for (let i = 0, element; element = elements[i++];) {
+
+        switch (counter) {
+            case 0:
+                tempMap["id"] = element.value;
+                break;
+            case 1:
+                tempMap["name"] = element.value;
+                break;
+            case 2:
+                tempMap["price"] = element.value;
+                break;
+            case 3:
+                tempMap["purchased"] = element.value;
+                break;
+            case 4:
+                tempMap["quantity"] = element.value;
+                break;
+            case 5:
+                tempMap["purchase_quantity"] = element.value;
+                let newMap = {};
+                for (let j in tempMap)
+                    newMap[j] = tempMap[j];
+                map.push(newMap);
+                break;
+        }
+        if (counter < 5){
+            counter++;
+        } else {
+            counter = 0;
+        }
+
+    }
+
+    let newForm = document.createElement("form");
+    let idElement = document.createElement("input");
+
+    newForm.method = "POST";
+    newForm.action = "";
+
+    idElement.value = JSON.stringify(map);
+    idElement.name = "payload";
+
+    newForm.appendChild(idElement);
+    newForm.style.display = 'none';
+    document.body.appendChild(newForm);
+
+    newForm.submit();
+}

@@ -19,6 +19,14 @@
 
 {{ include "admin/menu.html"}}
 
+{{ if isExist .resultMessage }}
+
+    <div class="alert alert-success" role="alert">
+    {{ .resultMessage }}
+    </div>
+
+{{ end }}
+
     <div class="row">
         <div class="col-12 col-sm-6">
             <div class="shadow">
@@ -35,8 +43,17 @@
                             <input type="text" class="form-control" id="name" name="name" required>
                         </div>
                         <div class="form-group">
-                            <label for="quantity">Product Quantity</label>
-                            <input type="text" class="form-control" id="quantity" name="quantity" required>
+                            <label for="quantity">Product Category</label>
+                            <div class="d-flex">
+                                <select class="form-control" id="quantity" name="category">
+                                {{ range $index, $value := .categoryNames }}
+                                    <option>{{ $value }}</option>
+                                {{ end }}
+                                </select>
+                                <i class="fas fa-plus-circle ml-3 hvr-cursor-pointer"
+                                   style="font-size: 2rem"
+                                   onclick="scrollToAddCategory()"></i>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="price">Product Price</label>
@@ -58,7 +75,7 @@
                         <div class="form-group d-flex justify-content-end">
                             <input type="submit" value="Add Product" class="btn btn-danger">
                         </div>
-                    {{ if .isResult }}
+{{/*                    {{ if .isResult }}
                         <div class="form-group d-flex justify-content-center">
                         {{ if .isError }}
                             <p class="text-danger"> {{ .resultMessage }} </p>
@@ -66,7 +83,7 @@
                             <p class="text-success"> {{.resultMessage }}</p>
                         {{ end}}
                         </div>
-                    {{ end}}
+                    {{ end}}*/}}
                     </form>
                 </div>
             </div>
@@ -107,6 +124,30 @@
             </div>
         </div>
     </div>
+
+    <div class="row mt-5" style="display: none" id="addNewCategory">
+        <div class="col-12">
+            <div class="shadow">
+                <div class="p-3 bg-danger text-white">
+                    <span class="font-hk-grotesk">Add new Category</span>
+                </div>
+                <div class="p-3">
+                    <form method="POST">
+                        <div class="form-group">
+                            <label for="categoryName">Category Name</label>
+                            <input type="text" class="form-control" id="categoryName" name="categoryName" required>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="d-flex justify-content-end">
+                                <input type="submit" class="btn btn-danger">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row mt-5">
         <div class="col-12">
             <div class="shadow">
@@ -140,11 +181,11 @@
                         <button class="btn bg-white text-danger my-2 my-sm-0" type="submit">Search</button>
                     </form>
                 </div>
-            {{ if .isDeleted }}
+{{/*            {{ if .isDeleted }}
                 <div class="text-center py-3">
                     <span class="text-success">{{ .resultDelete }}</span>
                 </div>
-            {{ end }}
+            {{ end }}*/}}
                 <table class="table table-striped">
                     <thead>
                     <tr>
@@ -154,6 +195,7 @@
                         <th scope="col">Stock</th>
                         <th scope="col">Purchased</th>
                         <th scope="col">Image Url</th>
+                        <th scope="col">Category</th>
                         <th scope="col">Vendor</th>
                         <th scope="col">Action</th>
                     </tr>
@@ -167,6 +209,7 @@
                         <td> {{ .Quantity }}</td>
                         <td>{{ .Purchased }}</td>
                         <td><a href="{{ .ImageUrl }}" target="_blank">{{ .ImageUrl }}</a></td>
+                        <td>{{ .Category }}</td>
                         <td>{{ .VendorName }}</td>
                         <td>
                             <button class="btn btn-primary" onclick="showProductDetail({{ .ID }})">Edit</button>

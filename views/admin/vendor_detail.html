@@ -72,17 +72,21 @@
         </div>
     </div>
 
-    <div class="row mt-5">
+{{/*    <div class="row mt-5">
         <div class="col-12">
-        {{/*TODO: disini data penjualan total*/}}
+        */}}{{/*TODO: disini data penjualan total*/}}{{/*
         </div>
-    </div>
+    </div>*/}}
 
     <div class="row mt-5">
         <div class="col-12">
             <div class="shadow">
-                <div class="p-3 bg-dark text-white">
+                <div class="p-3 bg-dark text-white d-flex justify-content-between align-items-center">
                     Product List
+                    <form class="form-inline" method="POST" action="/vendor/detail/add/product">
+                        <input type="hidden" name="id" value="{{ .vendor.ID }}">
+                        <button class="btn bg-white text-secondary my-2 my-sm-0" type="submit">Purchase Product</button>
+                    </form>
                 </div>
                 <table class="table table-striped">
                     <thead>

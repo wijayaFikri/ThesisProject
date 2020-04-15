@@ -10,6 +10,7 @@ type Product struct {
 	Price      int    `json:"price";form:"price"`
 	Quantity   int    `json:"quantity";form:"quantity"`
 	VendorName string `json:"vendor_name";form:"vendorName"`
+	Category   string `json:"category"`
 	ImageUrl   string `json:"image_url"`
 	Purchased  int    `json:"purchased";form:"purchased"`
 }

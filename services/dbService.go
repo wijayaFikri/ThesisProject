@@ -27,5 +27,5 @@ func init() {
 	}
 	//Migrate the schema
 	Db.AutoMigrate(&models.Admin{},
-		&models.Product{}, &models.User{}, &models.Vendor{}, &models.Order{}, &models.ProductPurchased{})
+		&models.Product{}, &models.User{}, &models.Vendor{}, &models.Order{}, &models.ProductPurchased{}, &models.Category{})
 }
