@@ -17,7 +17,13 @@ const STATUS_SENT = "Sent"
 const STATUS_RECEIVED = "Received"
 
 func SendAllProduct(c *gin.Context) {
-	allProduct := services.GetAllProduct()
+	var allProduct []models.Product
+	if c.PostForm("filter") != "" {
+		allProduct = services.GetAllProductByFilter(c.PostForm("filter"))
+	} else {
+		allProduct = services.GetAllProduct()
+	}
+
 	c.JSON(http.StatusOK, gin.H{
 		"products": allProduct,
 	})

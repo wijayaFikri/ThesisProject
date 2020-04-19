@@ -20,6 +20,18 @@ func GetAllProduct() []models.Product {
 	return products
 }
 
+func GetAllProductByFilter(filter string) []models.Product {
+	var products []models.Product
+	if filter == "latest" {
+		Db.Order("ID desc").Find(&products)
+	} else if filter == "lowest_price" {
+		Db.Order("price asc").Find(&products)
+	} else if filter == "highest_price" {
+		Db.Order("price desc").Find(&products)
+	}
+	return products
+}
+
 func SearchProduct(key string) []models.Product {
 	var products []models.Product
 	key = "%" + key + "%"
