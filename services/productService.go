@@ -28,6 +28,8 @@ func GetAllProductByFilter(filter string) []models.Product {
 		Db.Order("price asc").Find(&products)
 	} else if filter == "highest_price" {
 		Db.Order("price desc").Find(&products)
+	} else {
+		Db.Where("Category = ?", filter).Find(&products)
 	}
 	return products
 }

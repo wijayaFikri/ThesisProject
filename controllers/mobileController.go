@@ -104,3 +104,10 @@ func SendOrderHistory(c *gin.Context) {
 		"orders": user.Order,
 	})
 }
+
+func SendCategories(c *gin.Context) {
+	categories := services.GetAllCategoryName()
+	c.JSON(http.StatusOK, gin.H{
+		"categories": categories,
+	})
+}

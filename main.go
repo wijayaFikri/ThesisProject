@@ -65,6 +65,7 @@ func main() {
 	//API BUAT MOBILE
 	r.GET("/mobile/products", controllers.SendAllProduct)
 	r.POST("/mobile/products", controllers.SendAllProduct)
+	r.GET("/mobile/get/category", controllers.SendCategories)
 	r.POST("/mobile/create/order", controllers.CreateOrder)
 	r.POST("/mobile/user/login", controllers.LoginUser)
 	r.POST("mobile/order/history", controllers.SendOrderHistory)
