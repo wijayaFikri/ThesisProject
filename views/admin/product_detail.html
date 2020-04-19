@@ -19,6 +19,14 @@
 
 {{ include "admin/menu.html"}}
 
+{{ if isExist .resultMessage }}
+
+    <div class="alert alert-success" role="alert">
+    {{ .resultMessage }}
+    </div>
+
+{{ end }}
+
     <div class="row">
         <div class="col-12 col-sm-6">
             <div class="shadow h-100">
@@ -34,55 +42,79 @@
                                    value="{{ .product.Name}}">
                         </div>
                         <div class="form-group">
-                            <label for="formGroupExampleInput2">Product Quantity</label>
-                            <input type="text" class="form-control" id="formGroupExampleInput2" name="quantity"
-                                   value="{{.product.Quantity }}">
+                            <label for="quantity">Product Category</label>
+                            <div class="d-flex">
+                                <select class="form-control" id="quantity" name="category">
+                                {{ range $index, $value := .categoryNames }}
+                                    <option>{{ $value }}</option>
+                                {{ end }}
+                                </select>
+                                <i class="fas fa-plus-circle ml-3 hvr-cursor-pointer"
+                                   style="font-size: 2rem"
+                                   onclick="scrollToAddCategory()"></i>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="formGroupExampleInput3">Product Price</label>
                             <input type="text" class="form-control" id="formGroupExampleInput3" name="price"
-                            value="{{ .product.Price }}">
+                                   value="{{ .product.Price }}">
                         </div>
                         <div class="form-group">
                             <label for="formGroupExampleInput4">Product Vendor</label>
                             <select class="form-control" id="formGroupExampleInput4" name="vendorName">
                             {{ range $index, $value := .vendorNames }}
-                                {{if equal $value $.product.VendorName }}
+                            {{if equal $value $.product.VendorName }}
                                 <option selected>{{ $value }}</option>
-                                {{ else }}
+                            {{ else }}
                                 <option> {{ $value }}</option>
-                                {{ end }}
+                            {{ end }}
                             {{ end }}
                             </select>
                         </div>
                         <div class="form-group d-flex justify-content-end">
                             <input type="submit" value="Submit Changes" class="btn btn-danger">
                         </div>
-                    {{ if .isResult }}
-                        <div class="form-group d-flex justify-content-center">
-                        {{ if .isError }}
-                            <p class="text-danger"> {{ .resultMessage }} </p>
-                        {{ else }}
-                            <p class="text-success"> {{.resultMessage }}</p>
-                        {{ end}}
-                        </div>
-                    {{ end}}
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="row my-5" style="display: none" id="addNewCategory">
+        <div class="col-12">
+            <div class="shadow">
+                <div class="p-3 bg-danger text-white">
+                    <span class="font-hk-grotesk">Add new Category</span>
+                </div>
+                <div class="p-3">
+                    <form method="POST">
+                        <div class="form-group">
+                            <label for="categoryName">Category Name</label>
+                            <input type="text" class="form-control" id="categoryName" name="categoryName" required>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="d-flex justify-content-end">
+                                <input type="submit" class="btn btn-danger">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
-    <script src="/assets/js/admin/admin.js"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-            crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-            crossorigin="anonymous"></script>
+<script src="/assets/js/admin/admin.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
 </body>
 </html>

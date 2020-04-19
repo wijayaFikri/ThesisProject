@@ -223,7 +223,6 @@ func EditDetailProduct(c *gin.Context) {
 		c.Redirect(http.StatusFound, "/admin")
 		return
 	}
-	isResult := false
 	resultMessage := ""
 	id, err := strconv.Atoi(c.PostForm("id"))
 	var product models.Product
@@ -231,23 +230,23 @@ func EditDetailProduct(c *gin.Context) {
 		product = services.FindProductById(uint(id))
 		if c.PostForm("name") != "" {
 			product.Name = c.PostForm("name")
-			product.Quantity, _ = strconv.Atoi(strings.TrimSpace(c.PostForm("quantity")))
+			product.Category = c.PostForm("category")
 			product.Price, _ = strconv.Atoi(strings.TrimSpace(c.PostForm("price")))
 			product.VendorName = c.PostForm("vendorName")
 			services.Db.Save(&product)
-			isResult = true
 			resultMessage = "Data Changed Successfully"
 		}
 	}
+	categoryNames := services.GetAllCategoryName()
 	vendorNames := services.GetAllVendorName()
 	isOwner := getIsOwner(c)
 	c.HTML(http.StatusOK, "admin/product_detail.html", gin.H{
 		"product":       product,
 		"vendorNames":   vendorNames,
-		"isResult":      isResult,
 		"resultMessage": resultMessage,
 		"activeMenu":    PRODUCT,
 		"isOwner":       isOwner,
+		"categoryNames": categoryNames,
 	})
 }
 
