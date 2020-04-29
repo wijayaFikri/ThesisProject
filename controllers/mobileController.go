@@ -85,6 +85,7 @@ func CreateOrder(c *gin.Context) {
 	order.Status = STATUS_OPEN
 	order.TotalPrice = totalPrice
 	order.OrderDate = time.Now().Format("2006-January-02")
+	order.CreatedDate = time.Now()
 	order.Address = address
 	userId := uint(result["userId"].(float64))
 	user := services.FindUserById(userId)

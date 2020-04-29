@@ -32,16 +32,24 @@
                         <th scope="col">Total Price</th>
                         <th scope="col">Status</th>
                         <th scope="col">Customer</th>
+                        <th scope="col">Order Date{{ if .desc}}<i class="fas fa-chevron-down ml-3 hvr-cursor-pointer"
+                                                                 style="font-size: 1rem"
+                                                                 onclick="sortByDate('asc')"></i>{{ else }}
+                            <i class="fas fa-chevron-up ml-3 hvr-cursor-pointer"
+                               style="font-size: 1rem"
+                               onclick="sortByDate('desc')"></i>{{ end }}</th>
                     </tr>
                     </thead>
                     <tbody>
                     {{ range $index, $value := .allOrder }}
                     <tr>
                         <th scope="row">{{ add $index 1 }}</th>
-                        <td onclick="showOrderDetail({{ .ID }})" class="text-info hvr-underline-text hvr-cursor-pointer">{{ .OrderID }}</td>
+                        <td onclick="showOrderDetail({{ .ID }})"
+                            class="text-info hvr-underline-text hvr-cursor-pointer">{{ .OrderID }}</td>
                         <td>{{ .TotalPrice}}</td>
                         <td>{{ .Status }}</td>
                         <td>{{ .Username }}</td>
+                        <td>{{ .OrderDate }}</td>
                     </tr>
                     {{end}}
                     </tbody>

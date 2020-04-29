@@ -19,6 +19,14 @@
 
 {{ include "admin/menu.html"}}
 
+{{ if isExist .resultMessage }}
+
+    <div class="alert alert-success" role="alert">
+    {{ .resultMessage }}
+    </div>
+
+{{ end }}
+
     <div class="row">
         <div class="col-12">
             <div class="shadow">
@@ -35,15 +43,6 @@
                            style="font-size: 2rem"></i>
                     </div>
                 </div>
-            {{ if isExist .resultMessage }}
-                <div class="form-group d-flex justify-content-center">
-                {{ if .isError }}
-                    <p class="text-danger"> {{ .resultMessage }} </p>
-                {{ else }}
-                    <p class="text-success"> {{.resultMessage }}</p>
-                {{ end}}
-                </div>
-            {{ end}}
                 <div class="col-12 collapse pt-3" id="addUserForm">
                     <form method="POST" action="" name="productForm" id="productForm" enctype="multipart/form-data">
                         <div class="form-group">
@@ -78,7 +77,8 @@
                         <th scope="col">First Name</th>
                         <th scope="col">Last Name</th>
                         <th scope="col">Address</th>
-                        <th scope="col">Total Order</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Password</th>
                         <th scope="col">Action</th>
                     </tr>
                     </thead>
@@ -89,9 +89,11 @@
                         <td>{{ .FirstName }}</td>
                         <td>{{ .LastName}}</td>
                         <td>{{ .Address }}</td>
-                        <td>{{ .TotalOrder }}</td>
+                        <td> {{ .Username }}</td>
+                        <td> {{ .Password }}</td>
                         <td>
                             <button class="btn btn-danger" onclick="deleteData({{ .ID }})">Delete</button>
+                            <button class="btn btn-primary" onclick="editUser({{ .ID }})">Edit</button>
                         </td>
                     </tr>
                     {{end}}

@@ -75,15 +75,6 @@
                         <div class="form-group d-flex justify-content-end">
                             <input type="submit" value="Add Product" class="btn btn-danger">
                         </div>
-{{/*                    {{ if .isResult }}
-                        <div class="form-group d-flex justify-content-center">
-                        {{ if .isError }}
-                            <p class="text-danger"> {{ .resultMessage }} </p>
-                        {{ else }}
-                            <p class="text-success"> {{.resultMessage }}</p>
-                        {{ end}}
-                        </div>
-                    {{ end}}*/}}
                     </form>
                 </div>
             </div>
@@ -181,11 +172,6 @@
                         <button class="btn bg-white text-danger my-2 my-sm-0" type="submit">Search</button>
                     </form>
                 </div>
-{{/*            {{ if .isDeleted }}
-                <div class="text-center py-3">
-                    <span class="text-success">{{ .resultDelete }}</span>
-                </div>
-            {{ end }}*/}}
                 <table class="table table-striped">
                     <thead>
                     <tr>
@@ -195,7 +181,21 @@
                         <th scope="col">Stock</th>
                         <th scope="col">Purchased</th>
                         <th scope="col">Image Url</th>
-                        <th scope="col">Category</th>
+                        <th scope="col">
+                            <div class="dropdown">
+                                <span id="categoryDropDown" class="hvr-cursor-pointer" data-toggle="dropdown"
+                                      aria-haspopup="true"
+                                      aria-expanded="false">Category<i
+                                        class="fas fa-chevron-down ml-3"
+                                        style="font-size: 1rem"
+                                        onclick=""></i></span>
+                                <div class="dropdown-menu" aria-labelledby="categoryDropDown">
+                                {{ range $index, $value := .categoryNames }}
+                                    <a class="dropdown-item hvr-cursor-pointer" onclick="showByCategory('{{ $value }}')"> {{ $value }}</a>
+                                {{ end }}
+                                </div>
+                            </div>
+                        </th>
                         <th scope="col">Vendor</th>
                         <th scope="col">Action</th>
                     </tr>

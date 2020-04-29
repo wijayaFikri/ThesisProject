@@ -140,6 +140,8 @@ func InventoryList(c *gin.Context) {
 			searchMessage = "Product not found"
 			isError = true
 		}
+	} else if c.PostForm("Category") != "" {
+		allProduct = services.GetAllProductByFilter(c.PostForm("Category"))
 	} else {
 		allProduct = services.GetAllProduct()
 	}
@@ -366,12 +368,24 @@ func ShowUsers(c *gin.Context) {
 }
 
 func ShowOrder(c *gin.Context) {
-	allOrder := services.GetAllOrder()
+	desc := true
+	var allOrder []models.Order
+	if c.PostForm("sortKey") != "" {
+		if c.PostForm("sortKey") == "desc" {
+			desc = true
+		} else {
+			desc = false
+		}
+		allOrder = services.GetAllOrderSortByDate(c.PostForm("sortKey"))
+	} else {
+		allOrder = services.GetAllOrder()
+	}
 	isOwner := getIsOwner(c)
 	c.HTML(http.StatusOK, "/admin/orders.html", gin.H{
 		"allOrder":   allOrder,
 		"activeMenu": ORDER,
 		"isOwner":    isOwner,
+		"desc":       desc,
 	})
 }
 
@@ -448,6 +462,31 @@ func EmployeeManagement(c *gin.Context) {
 		"allAdmin":      admins,
 		"resultMessage": resultMessage,
 		"admin":         admin,
+	})
+}
+
+func EditUser(c *gin.Context) {
+	id, _ := strconv.Atoi(c.PostForm("ID"))
+	user := services.FindUserById(uint(id))
+	isOwner := getIsOwner(c)
+	resultMessage := ""
+
+	if c.PostForm("Changes") != "" {
+		var newUser models.UserForm
+		c.Bind(&newUser)
+		user.Password = newUser.Password
+		user.Username = newUser.Username
+		user.FirstName = newUser.FirstName
+		user.LastName = newUser.LastName
+		user.Address = newUser.Address
+		services.AddUser(user)
+		resultMessage = "Changes saved Successfully"
+	}
+	c.HTML(http.StatusOK, "/admin/user_detail_edit.html", gin.H{
+		"isOwner":       isOwner,
+		"activeMenu":    USER,
+		"resultMessage": resultMessage,
+		"user":          user,
 	})
 }
 

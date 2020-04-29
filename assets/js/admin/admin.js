@@ -187,3 +187,54 @@ function submitPurchaseRequest() {
 
     newForm.submit();
 }
+
+function sortByDate(key) {
+    let form = document.createElement("form");
+    let idElement = document.createElement("input");
+
+    form.method = "POST";
+    form.action = "";
+
+    idElement.value = key;
+    idElement.name = "sortKey";
+    form.style.display="none";
+
+    form.appendChild(idElement);
+    document.body.appendChild(form);
+
+    form.submit();
+}
+
+function showByCategory(Category) {
+    let form = document.createElement("form");
+    let idElement = document.createElement("input");
+
+    form.method = "POST";
+    form.action = "";
+
+    idElement.value = Category;
+    idElement.name = "Category";
+    form.style.display="none";
+
+    form.appendChild(idElement);
+    document.body.appendChild(form);
+
+    form.submit();
+}
+
+function editUser(id) {
+    let form = document.createElement("form");
+    let idElement = document.createElement("input");
+
+    form.method = "POST";
+    form.action = "/admin/user/edit";
+
+    idElement.value = id;
+    idElement.name = "id";
+
+    form.style.display='none';
+    form.appendChild(idElement);
+    document.body.appendChild(form);
+
+    form.submit();
+}
