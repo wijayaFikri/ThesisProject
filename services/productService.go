@@ -1,6 +1,9 @@
 package services
 
-import "ThesisProject/models"
+import (
+	"ThesisProject/models"
+	"strings"
+)
 
 func AddProduct(product models.Product) {
 	Db.Save(&product)
@@ -28,6 +31,16 @@ func GetAllProductByFilter(filter string) []models.Product {
 		Db.Order("price asc").Find(&products)
 	} else if filter == "highest_price" {
 		Db.Order("price desc").Find(&products)
+	} else if strings.Contains(filter, ",") {
+		filters := strings.Split(filter, ",")
+		secondFilter := filters[1]
+		if secondFilter == "latest" {
+			Db.Where("Category = ?", filters[0]).Order("ID desc").Find(&products)
+		} else if secondFilter == "lowest_price" {
+			Db.Where("Category = ?", filters[0]).Order("price asc").Find(&products)
+		} else if secondFilter == "highest_price" {
+			Db.Where("Category = ?", filters[0]).Order("price desc").Find(&products)
+		}
 	} else {
 		Db.Where("Category = ?", filter).Find(&products)
 	}
