@@ -112,3 +112,20 @@ func SendCategories(c *gin.Context) {
 		"categories": categories,
 	})
 }
+
+func GetTransferEvidence(c *gin.Context) {
+	id, _ := strconv.Atoi(c.PostForm("id"))
+	order := services.FindOrderById(uint(id))
+	//file, header, _ := c.Request.FormFile("image")
+	multiPartFile := c.Request.MultipartForm
+	fileHeader := multiPartFile.File
+	fileSlice := fileHeader["file"]
+	file := fileSlice[0]
+	openedFile, _ := file.Open()
+	print(file)
+	order.ImageUrl = uploadToImgur(openedFile, file.Filename)
+	services.AddOrder(order)
+	c.JSON(http.StatusOK, gin.H{
+		"result": "ok",
+	})
+}

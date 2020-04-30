@@ -12,4 +12,5 @@ type Order struct {
 	Address     string             `json:"address"`
 	OrderDate   string             `json:"order_date"`
 	CreatedDate time.Time          `json:"created_date"`
+	ImageUrl    string             `json:"image_url"`
 }
