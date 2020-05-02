@@ -53,8 +53,8 @@ func CreateOrder(c *gin.Context) {
 	address := result["Address"].(string)
 
 	var order models.Order
-	orderID := ""
-	for i := 0; i < 8; i++ {
+	orderID := "1"
+	for i := 0; i < 7; i++ {
 		rand.Seed(time.Now().UTC().UnixNano())
 		random := rand.Intn(10) + (i * 2)
 		if random > 10 {
@@ -115,8 +115,7 @@ func SendCategories(c *gin.Context) {
 
 func GetTransferEvidence(c *gin.Context) {
 	id, _ := strconv.Atoi(c.PostForm("id"))
-	order := services.FindOrderById(uint(id))
-	//file, header, _ := c.Request.FormFile("image")
+	order := services.FindOrderByOrderId(uint(id))
 	multiPartFile := c.Request.MultipartForm
 	fileHeader := multiPartFile.File
 	fileSlice := fileHeader["file"]

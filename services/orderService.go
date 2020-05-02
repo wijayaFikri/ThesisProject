@@ -33,7 +33,13 @@ func GetLatestOrder() []models.Order {
 }
 
 func FindOrderById(id uint) models.Order {
-	Order := models.Order{ID: id}
-	Db.Preload("Product").Find(&Order)
-	return Order
+	var order models.Order
+	Db.Where("ID = ?", id).Preload("Product").Find(&order)
+	return order
+}
+
+func FindOrderByOrderId(id uint) models.Order {
+	var order models.Order
+	Db.Where("Order_Id = ?", id).Preload("Product").Find(&order)
+	return order
 }
