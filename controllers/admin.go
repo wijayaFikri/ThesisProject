@@ -9,10 +9,12 @@ import (
 	"github.com/gin-gonic/gin"
 	"io"
 	"io/ioutil"
+	"math/rand"
 	"mime/multipart"
 	"net/http"
 	"strconv"
 	"strings"
+	"time"
 )
 
 const USERNAME = "username"
@@ -22,6 +24,8 @@ const USER = "user"
 const ORDER = "order"
 const IS_OWNER = "is_owner"
 const VENDOR_ID_KEY = "vendor_id"
+const VENDOR_PURCHASE_KEY = "vendor_purchase"
+const QUANTITY_KEY = "quantity_key"
 
 func AdminLogin(c *gin.Context) {
 	isError := false
@@ -316,6 +320,87 @@ func ShowAddMoreQuantityVendor(c *gin.Context) {
 		"isOwner":       isOwner,
 		"vendor":        vendor,
 	})
+}
+
+func ConfirmVendorOrder(c *gin.Context) {
+	if !checkLogin(c) {
+		c.Redirect(http.StatusFound, "/admin")
+		return
+	}
+	var productList []models.Product
+	var newQuantity []int
+	if c.PostForm("payload") != "" {
+		payload := c.PostForm("payload")
+		var result []map[string]string
+		json.Unmarshal([]byte(payload), &result)
+		for _, element := range result {
+			addedQuantity, _ := strconv.Atoi(element["purchase_quantity"])
+			id, _ := strconv.Atoi(element["id"])
+			product := services.FindProductById(uint(id))
+			if addedQuantity > 0 {
+				newQuantity = append(newQuantity, addedQuantity)
+				product.Quantity = addedQuantity
+				productList = append(productList, product)
+			}
+
+		}
+		dateNow := time.Now().Format("2006-January-02")
+		vendorName := c.PostForm("vendor_name")
+		orderID := "1"
+		for i := 0; i < 7; i++ {
+			rand.Seed(time.Now().UTC().UnixNano())
+			random := rand.Intn(10) + (i * 2)
+			if random > 10 {
+				random = random - 10
+			}
+			orderID = orderID + strconv.Itoa(random)
+		}
+		vendorPurchase := models.VendorPurchase{Date: dateNow, OrderID: orderID, Product: productList, VendorName: vendorName}
+		var vendorPurchaseDisplayList []models.VendorPurchaseDisplay
+		vendorPurchaseDisplayList = append(vendorPurchaseDisplayList, models.VendorPurchaseDisplay{Label: "Order ID", Value: orderID})
+		vendorPurchaseDisplayList = append(vendorPurchaseDisplayList, models.VendorPurchaseDisplay{Label: "Date", Value: dateNow})
+		vendorPurchaseDisplayList = append(vendorPurchaseDisplayList, models.VendorPurchaseDisplay{Label: "Vendor Name", Value: vendorName})
+		vendorPurchaseDisplayList = append(vendorPurchaseDisplayList, models.VendorPurchaseDisplay{Label: "Total Product", Value: strconv.Itoa(len(productList))})
+		session := sessions.Default(c)
+		session.Set(QUANTITY_KEY, newQuantity)
+		session.Set(VENDOR_PURCHASE_KEY, vendorPurchase)
+		session.Save()
+		c.HTML(http.StatusOK, "admin/vendor_purchase_confirm.html", gin.H{
+			"activeMenu":      VENDOR,
+			"vendor_purchase": vendorPurchase,
+			"form":            vendorPurchaseDisplayList,
+			"products":        productList,
+		})
+
+	}
+}
+
+func ProcessVendorOrder(c *gin.Context) {
+	if !checkLogin(c) {
+		c.Redirect(http.StatusFound, "/admin")
+		return
+	}
+	session := sessions.Default(c)
+	vendorPurchasePointer := session.Get(VENDOR_PURCHASE_KEY).(*models.VendorPurchase)
+	vendorPurchase := *vendorPurchasePointer
+	newQuantities := session.Get(QUANTITY_KEY).([]int)
+	productList := vendorPurchase.Product
+	for i := 0; i < len(productList); i++ {
+		product := productList[i]
+		product.Quantity = product.Quantity + newQuantities[i]
+		services.UpdateProduct(product)
+	}
+	services.AddVendorPurchase(vendorPurchase)
+	resultMessage := "Products purchased successfully"
+	vendor := services.FindVendorByName(vendorPurchase.VendorName)
+	isOwner := getIsOwner(c)
+	c.HTML(http.StatusOK, "admin/vendor_detail.html", gin.H{
+		"activeMenu":    VENDOR,
+		"resultMessage": resultMessage,
+		"isOwner":       isOwner,
+		"vendor":        vendor,
+	})
+
 }
 
 func ShowUsers(c *gin.Context) {

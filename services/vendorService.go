@@ -44,6 +44,6 @@ func FindVendorById(id int) models.Vendor {
 
 func FindVendorByName(name string) models.Vendor {
 	vendor := models.Vendor{VendorName: name}
-	Db.Preload("product").Where("vendor_name = ?", name).Find(&vendor)
+	Db.Preload("Product").Where("vendor_name = ?", name).Find(&vendor)
 	return vendor
 }

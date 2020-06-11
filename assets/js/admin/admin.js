@@ -132,7 +132,7 @@ function scrollToAddCategory() {
     element.scrollIntoView({ behavior: 'smooth', block: 'center'});
 }
 
-function submitPurchaseRequest() {
+function submitPurchaseRequest(vendorName) {
     let form = document.getElementById('purchaseForm');
     let map = [];
     let counter = 0;
@@ -174,13 +174,17 @@ function submitPurchaseRequest() {
 
     let newForm = document.createElement("form");
     let idElement = document.createElement("input");
+    let vendorNameElement = document.createElement("input");
 
     newForm.method = "POST";
-    newForm.action = "";
+    newForm.action = "/vendor/detail/add/product/confirm";
 
     idElement.value = JSON.stringify(map);
     idElement.name = "payload";
+    vendorNameElement.value = vendorName;
+    vendorNameElement.name = "vendor_name";
 
+    newForm.appendChild(vendorNameElement);
     newForm.appendChild(idElement);
     newForm.style.display = 'none';
     document.body.appendChild(newForm);
@@ -237,4 +241,18 @@ function editUser(id) {
     document.body.appendChild(form);
 
     form.submit();
+}
+
+function submitVendorPurchase() {
+    let form = document.createElement("form");
+
+    form.method = "POST";
+    form.action = "/vendor/detail/add/product/result";
+
+    form.style.display="none";
+
+    document.body.appendChild(form);
+
+    form.submit();
+
 }

@@ -2,6 +2,8 @@ package main
 
 import (
 	"ThesisProject/controllers"
+	"ThesisProject/models"
+	"encoding/gob"
 	"github.com/foolin/goview"
 	"github.com/foolin/goview/supports/ginview"
 	"github.com/gin-contrib/sessions"
@@ -36,6 +38,8 @@ func main() {
 			},
 		},
 	})
+
+	gob.Register(&models.VendorPurchase{})
 	r.Use(sessions.Sessions("mySession", store))
 	r.HTMLRender = ginView
 	r.GET("/", controllers.AdminDashboard)
@@ -64,6 +68,8 @@ func main() {
 	r.GET("/admin/employee/manage", controllers.EmployeeManagement)
 	r.POST("/admin/employee/manage", controllers.EmployeeManagement)
 	r.POST("/vendor/detail/add/product", controllers.ShowAddMoreQuantityVendor)
+	r.POST("/vendor/detail/add/product/confirm", controllers.ConfirmVendorOrder)
+	r.POST("/vendor/detail/add/product/result", controllers.ProcessVendorOrder)
 
 	//API BUAT MOBILE
 	r.GET("/mobile/products", controllers.SendAllProduct)

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>SCM</title>
+    <link rel="stylesheet" href="/assets/fonts/fonts.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/admin/dashboard.css">
+    <link rel="stylesheet" href="/assets/fontawesome/css/fontawesome.min.css">
+    <link href="/assets/fontawesome/css/solid.css" rel="stylesheet">
+</head>
+<body>
+
+{{ include "/admin/navbar.html" }}
+
+<div class="container mt-5">
+
+{{ include "admin/menu.html"}}
+
+    <div class="row">
+        <div class="col-12">
+            <div class="shadow">
+                <div class="p-3 bg-dark text-white">
+                    Purchase Confirmation
+                </div>
+
+                <table class="table table-striped">
+                    <tbody>
+                    {{ range $index, $value := .form }}
+                    <tr>
+                        <td>
+                            <div class="row">
+                                <div class="col-2 d-flex justify-content-between">
+                                    <span>{{ .Label }}</span>
+                                    <span>:</span>
+                                </div>
+                                <div class="col-10">
+                                {{ .Value }}
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {{ end }}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-12 mt-3">
+            <div class="shadow" id="orderedProductDetail">
+                <div class="p-3 bg-dark text-white">
+                    Ordered Product Detail
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Image Url</th>
+                        <th scope="col">Vendor</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{ range $index, $value := .products }}
+                    <tr>
+                        <th scope="row">{{ add $index 1 }}</th>
+                        <td>{{ .Name }}</td>
+                        <td>{{ .Price }}</td>
+                        <td> {{ .Quantity }}</td>
+                        <td><a href="{{ .ImageUrl }}" target="_blank">{{ .ImageUrl }}</a></td>
+                        <td>{{ .VendorName }}</td>
+                    </tr>
+                    {{end}}
+                    <tr>
+                        <td colspan="100%">
+                            <div class="w-100 d-flex justify-content-end align-items-center">
+                                <button type="button" onclick="submitVendorPurchase()" class="btn btn-secondary">Submit Purchase</button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+<script src="/assets/js/admin/admin.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</body>
+</html>

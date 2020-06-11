@@ -19,6 +19,14 @@
 
 {{ include "admin/menu.html"}}
 
+{{ if isExist .resultMessage }}
+
+    <div class="alert alert-success" role="alert">
+    {{ .resultMessage }}
+    </div>
+
+{{ end }}
+
     <div class="row">
         <div class="col-12 col-sm-6">
             <div class="shadow h-100">
@@ -46,15 +54,6 @@
                         <div class="form-group d-flex justify-content-end">
                             <input type="submit" value="Submit Changes" class="btn btn-dark">
                         </div>
-                    {{ if .isResult }}
-                        <div class="form-group d-flex justify-content-center">
-                        {{ if .isError }}
-                            <p class="text-danger"> {{ .resultMessage }} </p>
-                        {{ else }}
-                            <p class="text-success"> {{.resultMessage }}</p>
-                        {{ end}}
-                        </div>
-                    {{ end}}
                     </form>
                 </div>
             </div>
